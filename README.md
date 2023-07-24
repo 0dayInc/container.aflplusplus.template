@@ -1,16 +1,16 @@
 ### **Intro** ###
 #### **What** ####
-This project aims to guide security researchers along the journey in squezzing out as much capability of AFL++ as possible for any engagement in which a researcher is focused.
+This project aims to guide security researchers along the journey in squeezing out as much capability of AFL++ as possible for any engagement in which a researcher is fuzzing a target.
 
 #### **Why** ####
-It's one thing to install AFL++ and "start fuzzing."  It's quite another to install AFL++ and "truly fuzz"
+It's one thing to install AFL++ and "start fuzzing."  It's quite another to install AFL++ and "fuzz effectively"
 
 
 #### **How** ####
 The environment project aims to:
 - Avoid thashing hard drives (which is why fuzzing happens within memory for this project, i.e. the tmpfs /fuzz_session)
 - Provide guidance around instrumenting binaries leveraging the __AFL_LOOP function
-- Has the bility to spinning up a main fuzzers with multiple "secondaries"
+- Has the ability to spin up a "main" fuzzer with multiple "secondaries"
 - Enabling the Creation of test cases for a given target
 - Cranking out as many mutations / second as possible
 
