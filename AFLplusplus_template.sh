@@ -146,6 +146,7 @@ fuzz_session_init="
     -o ${afl_session_root}/multi_sync \
     -m none \
     -t 6000+ \
+    -D \
     -- ${target_binary}
 "
 
