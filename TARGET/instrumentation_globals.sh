@@ -12,9 +12,9 @@ honggfuzz_mutator="${custom_mutators_root}/honggfuzz/honggfuzz.so"
 export preferred_afl='afl-clang-lto'
 export preferred_aflplusplus='afl-clang-lto++'
 export preferred_afl_linker='afl-ld-lto'
-export preferred_afl_ranlib='llvm-ranlib-11'
-export preferred_afl_ar='llvm-ar-11'
-export preferred_afl_nm='llvm-nm-11'
+export preferred_afl_ranlib='llvm-ranlib-14'
+export preferred_afl_ar='llvm-ar-14'
+export preferred_afl_nm='llvm-nm-14'
 
 # Generate a dictionary in the target binary 
 # based on string compare and memory compare 
