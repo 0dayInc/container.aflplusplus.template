@@ -87,7 +87,11 @@ target_prefix="${fuzz_session_root}/TARGET"
 if [[ ! -d $fuzz_session_root ]]; then
   sudo mkdir $fuzz_session_root
   sudo chmod 777 $fuzz_session_root 
-  sudo mount -t tmpfs -o exec,nosuid,nodev,noatime,mode=1777,size=8G tmpfs $fuzz_session_root
+  sudo mount \
+    -t tmpfs \
+    -o exec,nosuid,nodev,noatime,mode=1777,size=8G \
+    tmpfs \
+    $fuzz_session_root
 fi
 
 if [[ ! -d $afl_session_root ]]; then
@@ -106,13 +110,12 @@ if [[ ! -d $afl_output ]]; then
 fi
 
 this_session_rand=$RANDOM
-target_binary="${target_prefix}/${target_name}"
 
 # Set ADL Mode
 if [[ $afl_mode == 'main' ]]; then
-  afl_mode_selection="-M ${target_name}MAIN"
+  afl_mode_selection="-M MAIN"
 else
-  afl_mode_selection="-S ${target_name}SEC${this_session_rand}"
+  afl_mode_selection="-S SEC${this_session_rand}"
 fi
 
 # Initialize Fuzz Session
@@ -134,20 +137,20 @@ fi
 
 fuzz_session_init="
   ${fuzz_session_init}
+  export USE_ZEND_ALLOC=0 &&
   export AFL_AUTORESUME=1 &&
   export AFL_IMPORT_FIRST=1 &&
   export AFL_SKIP_CPUFREQ=0 &&
   export AFL_SHUFFLE_QUEUE=1 &&
   afl-fuzz \
     ${afl_mode_selection} \
-    -T "AFLplusplus.${target_name}" \
-    -R \
+    -T AFLplusplus \
     -i ${afl_session_root}/input \
     -o ${afl_session_root}/multi_sync \
     -m none \
     -t 6000+ \
     -D \
-    -- ${target_binary}
+    -- ${target_name}
 "
 
 case $afl_mode in
@@ -170,7 +173,7 @@ case $afl_mode in
       sudo rm -rf $afl_output/*
     fi
 
-    # Build out init_instrument_fuzz 
+    # Build out init_instrument_fuzz variable
     echo 'Initializing AFL++ Container, Instrumenting TARGET, and Starting AFL++'
     afl_init_container="${docker_repo_root}/TARGET/init_aflplusplus_container.sh"
     afl_instrument_target="${docker_repo_root}/TARGET/instrument_target.sh"
@@ -207,25 +210,28 @@ case $afl_mode in
 
     # NOTE: DEPENDING ON YOUR NEEDS, YOU MAY NEED TO ASSIGN MORE
     # BIND MOUNTS TO THE DOCKER CONTAINER
-    tmux new -s "afl++_MAIN_${target_name}_${this_session_rand}" \
+    # tmux new -s "afl++_MAIN_${target_name}_${this_session_rand}" \
+    docker_name="aflplusplus.${this_session_rand}"
+    tmux new -s "afl_M_$this_session_rand" \
       "docker run \
         --privileged \
         --rm \
-        --name aflplusplus.$target_name.$this_session_rand \
-        --mount type=bind,source=`dirname ${this_repo_root}`,target=/opt \
+        --name \"${docker_name}\" \
+        --mount type=bind,source=$(dirname ${this_repo_root}),target=/opt \
         --mount type=bind,source=$fuzz_session_root,target=$fuzz_session_root \
         --interactive \
         --tty aflplusplus/aflplusplus:dev \
         /bin/bash --login \
-        -c \"${init_instrument_fuzz}\"
+          -c \"${init_instrument_fuzz}\"
       "
+    
     sudo sysctl -w kernel.unprivileged_userns_clone=0
     ;;
 
   'secondary')
     # Run Secondary
     afl_main_name=`docker ps -a | grep aflplusplus.$target_name | awk '{print $NF}'`
-    tmux new -s "afl++_SEC_${target_name}_$this_session_rand" \
+    tmux new -s "afl_S_$this_session_rand" \
       "docker exec \
         --interactive \
         --tty $afl_main_name \

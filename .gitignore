@@ -2,3 +2,5 @@
 *.swp
 **/screenlog.*
 .DS_Store
+TARGET_SRC/**
+!TARGET_SRC/.gitkeep
