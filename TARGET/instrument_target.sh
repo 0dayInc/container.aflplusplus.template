@@ -1,4 +1,6 @@
 # #!/bin/bash --login
+target_repo="${1}"
+
 other_repos_root='/opt'
 docker_repo_root="${other_repos_root}/container.aflplusplus.template"
 
@@ -7,14 +9,14 @@ afl_session_root="${fuzz_session_root}/AFLplusplus"
 afl_input="${afl_session_root}/input"
 afl_output="${afl_session_root}/multi_sync"
 
-target_repo="${docker_repo_root}/TARGET_SRC/php-5.6.40"
 target_prefix="${docker_repo_root}/TARGET"
 
 # Define Target Instrumentation via instrumentation_globals.sh
 source $docker_repo_root/TARGET/instrumentation_globals.sh
 
 bash --login -c "
-  echo 'AFL++ Container...Press CTRL+D Twice to Instrument Target';
+  echo 'Welcome to the AFL++ Container...';
+  echo 'Press CTRL+D Twice to Build the Instrumented Target';
   /bin/bash
 "
 # THIS IS AN EXAMPLE OF HOW TO BUILD A TARGET FOLLOWING INSTRUMENTATION

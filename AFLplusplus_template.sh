@@ -12,6 +12,10 @@ usage() {
     -m <main || secondary> # REQUIRED
                            # afl++ Mode 
 
+    -r <src dir name>      # REQUIRED
+                           # Name of the source code folder
+                           # residing in ./TARGET_SRC to build
+
     -c                     # OPTIONAL / main MODE ONLY
                            # Nuke contents of TARGET prefix
                            # (i.e. /fuzz_session/TARGET)
@@ -43,11 +47,12 @@ nuke_multi_sync='false'
 nuke_test_cases='false'
 debug='false'
 
-while getopts "hT:m:cntLD" flag; do
+while getopts "hT:m:r:cntLD" flag; do
   case $flag in
     'h') usage;;
     'T') target_name="${OPTARG}";;
     'm') afl_mode="${OPTARG}";;
+    'r') target_source_name="${OPTARG}";;
     'c') nuke_target_prefix='true';;
     'n') nuke_multi_sync='true';;
     't') nuke_test_cases='true';;
@@ -80,7 +85,7 @@ afl_session_root="${fuzz_session_root}/AFLplusplus"
 afl_input="${afl_session_root}/input"
 afl_output="${afl_session_root}/multi_sync"
 
-target_repo="${fuzz_session_root}/TARGET_SRC"
+target_repo="${fuzz_session_root}/TARGET_SRC/${target_source_name}"
 target_prefix="${fuzz_session_root}/TARGET"
 
 # Ensure folder conventions are intact
@@ -176,7 +181,7 @@ case $afl_mode in
     # Build out init_instrument_fuzz variable
     echo 'Initializing AFL++ Container, Instrumenting TARGET, and Starting AFL++'
     afl_init_container="${docker_repo_root}/TARGET/init_aflplusplus_container.sh"
-    afl_instrument_target="${docker_repo_root}/TARGET/instrument_target.sh"
+    afl_instrument_target="${docker_repo_root}/TARGET/instrument_target.sh ${target_repo}"
     # Copy TARGET Test Cases to $afl_input Folder
     cp $target_test_cases/* $afl_input 2> /dev/null
 
