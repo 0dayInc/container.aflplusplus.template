@@ -225,7 +225,7 @@ case $afl_mode in
         --privileged \
         --rm \
         --name \"${docker_name}\" \
-        --mount type=bind,source=$(dirname ${this_repo_root}),target=/opt \
+        --mount type=bind,source=$this_repo_root,target=$docker_repo_root \
         --mount type=bind,source=$fuzz_session_root,target=$fuzz_session_root \
         --interactive \
         --tty aflplusplus/aflplusplus:dev \
