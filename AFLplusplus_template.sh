@@ -137,7 +137,7 @@ fuzz_session_init='
   echo core > /proc/sys/kernel/core_pattern &&
   echo never > /sys/kernel/mm/transparent_hugepage/enabled &&
   echo 1 >/proc/sys/kernel/sched_child_runs_first &&
-  echo 1 >/proc/sys/kernel/sched_autogroup_enabled &&
+  echo 1 >/proc/sys/kernel/sched_autogroup_enabled
 '
 
 if [[ $debug == 'true' ]]; then
@@ -148,12 +148,8 @@ if [[ $debug == 'true' ]]; then
 fi
 
 fuzz_session_init="
-  ${fuzz_session_init}
+  ${fuzz_session_init} &&
   export USE_ZEND_ALLOC=0 &&
-  export AFL_AUTORESUME=1 &&
-  export AFL_IMPORT_FIRST=1 &&
-  export AFL_SKIP_CPUFREQ=0 &&
-  export AFL_SHUFFLE_QUEUE=1 &&
   afl-fuzz \
     ${afl_mode_selection} \
     -T AFLplusplus \

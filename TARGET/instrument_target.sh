@@ -9,6 +9,9 @@ bash --login -c "
   echo 'Press CTRL+D to Begin Building the Instrumented Target';
   /bin/bash --login
 "
+# Build AFL++ More Completely
+cd /AFLplusplus && make all && make install
+
 # Define Target Instrumentation via instrumentation_globals.sh
 source $docker_repo_root/TARGET/instrumentation_globals.sh
 
