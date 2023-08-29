@@ -23,8 +23,8 @@ USAGE:
 ./AFLplusplus_template.sh
     -h                     # Display USAGE
 
-    -T <TARGET NAME/FLAGS> # REQUIRED
-                           # TARGET NAME / FLAGS of the target binary
+    -T <TARGET CMD/FLAGS>  # REQUIRED
+                           # TARGET CMD / FLAGS of the target binary
                            # to be fuzzed. It must reside in the
                            # TARGET prefix (i.e. /fuzz_session/TARGET)
 
