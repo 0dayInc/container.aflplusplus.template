@@ -5,8 +5,9 @@ target_repo="${docker_repo_root}/TARGET_SRC/${target_source_name}"
 
 bash --login -c "
   echo 'Welcome to the AFL++ Container...';
-  echo 'Press CTRL+D Twice to Build the Instrumented Target';
-  /bin/bash
+  echo 'Feel Free to Browse the Filesystem, Troubleshoot, etc.';
+  echo 'Press CTRL+D to Begin Building the Instrumented Target';
+  /bin/bash --login
 "
 # Define Target Instrumentation via instrumentation_globals.sh
 source $docker_repo_root/TARGET/instrumentation_globals.sh
