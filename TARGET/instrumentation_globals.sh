@@ -1,5 +1,7 @@
 #!/bin/bash --login
 # INSTRUMENTATION GLOBALS:
+# FOR MORE DETAILS, SEE: https://aflplus.plus/docs/env_variables/
+
 custom_mutators_root='/opt/AFLplusplus/custom_mutators'
 radamsa_mutator="${custom_mutators_root}/radamsa/radamsa-mutator.so"
 honggfuzz_mutator="${custom_mutators_root}/honggfuzz/honggfuzz.so"
@@ -44,8 +46,13 @@ export AFL_LLVM_LTO_AUTODICTIONARY=1
 # tradeoff for speed for less path information.
 #export AFL_LLVM_INSTRIM_LOOPHEAD=1
 
-export AFL_LLVM_LAF_SPLIT_SWITCHES=1
+# This great feature will split compares into series of
+# single byte comparisons to allow afl-fuzz to find 
+# otherwise rather impossible paths. It is not restricted
+# to Intel CPUs.
+export AFL_LLVM_LAF_TRANSFORM_COMPARES=1
 export AFL_LLVM_LAF_SPLIT_COMPARES=1
+export AFL_LLVM_LAF_SPLIT_SWITCHES=1
 export AFL_LLVM_LAF_SPLIT_FLOATS=1
 export AFL_LLVM_LAF_ALL=1
 #export AFL_HARDEN=1
