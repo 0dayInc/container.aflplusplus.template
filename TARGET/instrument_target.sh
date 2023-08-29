@@ -3,14 +3,16 @@ target_source_name="${1}"
 docker_repo_root='/opt/container.aflplusplus.template'
 target_repo="${docker_repo_root}/TARGET_SRC/${target_source_name}"
 
+# Build AFL++ More Completely
+cd /AFLplusplus && make all && make install
+
+# Provide an opportunity to troubleshoot the container
 bash --login -c "
   echo 'Welcome to the AFL++ Container...';
   echo 'Feel Free to Browse the Filesystem, Troubleshoot, etc.';
   echo 'Press CTRL+D to Begin Building the Instrumented Target';
   /bin/bash --login
 "
-# Build AFL++ More Completely
-cd /AFLplusplus && make all && make install
 
 # Define Target Instrumentation via instrumentation_globals.sh
 source $docker_repo_root/TARGET/instrumentation_globals.sh
