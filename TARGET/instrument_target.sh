@@ -1,15 +1,8 @@
 # #!/bin/bash --login
-target_repo="${1}"
+target_source_name="${1}"
 
-other_repos_root='/opt'
-docker_repo_root="${other_repos_root}/container.aflplusplus.template"
-
-fuzz_session_root='/fuzz_session'
-afl_session_root="${fuzz_session_root}/AFLplusplus"
-afl_input="${afl_session_root}/input"
-afl_output="${afl_session_root}/multi_sync"
-
-target_prefix="${docker_repo_root}/TARGET"
+docker_repo_root='/opt/container.aflplusplus.template'
+target_repo="${docker_repo_root}/TARGET_SRC/${target_source_name}"
 
 # Define Target Instrumentation via instrumentation_globals.sh
 source $docker_repo_root/TARGET/instrumentation_globals.sh
