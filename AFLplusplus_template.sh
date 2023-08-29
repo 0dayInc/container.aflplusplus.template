@@ -42,6 +42,7 @@ usage() {
 
 no_args='true'
 afl_mode=''
+target_source_name=''
 nuke_target_prefix='false'
 nuke_multi_sync='false'
 nuke_test_cases='false'
@@ -64,6 +65,13 @@ done
 
 # If no args are passed, then return usage
 if [[ $no_args == 'true' ]]; then
+  echo 'ERROR: Missing Required Args'
+  usage
+fi
+
+if [[ $target_source_name == '' ]]; then
+  echo 'ERROR: -r Flag is Required'
+  echo $target_source_name
   usage
 fi
 
@@ -85,7 +93,8 @@ afl_session_root="${fuzz_session_root}/AFLplusplus"
 afl_input="${afl_session_root}/input"
 afl_output="${afl_session_root}/multi_sync"
 
-target_repo="${fuzz_session_root}/TARGET_SRC/${target_source_name}"
+# target_repo="${fuzz_session_root}/TARGET_SRC/${target_source_name}"
+target_repo="/opt/container.aflplusplus.template/TARGET_SRC/${target_source_name}"
 target_prefix="${fuzz_session_root}/TARGET"
 
 # Ensure folder conventions are intact

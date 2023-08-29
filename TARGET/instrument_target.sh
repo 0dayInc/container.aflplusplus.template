@@ -26,3 +26,9 @@ cd $target_repo && CC=$preferred_afl CXX=$preferred_aflplusplus RANLIB=$preferre
 cd ${target_repo} && CC=$preferred_afl CXX=$preferred_aflplusplus RANLIB=$preferred_afl_ranlib AR=$preferred_afl_ar NM=$preferred_afl_nm ./configure
 cd ${target_repo} && CC=$preferred_afl CXX=$preferred_aflplusplus RANLIB=$preferred_afl_ranlib AR=$preferred_afl_ar NM=$preferred_afl_nm make
 cd ${target_repo} && make install
+
+echo 'Fuzzing will begin in 10 seconds'
+for i in {1..10}; do
+  printf '.'
+  sleep 1
+done
