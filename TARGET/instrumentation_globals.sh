@@ -57,19 +57,33 @@ export AFL_LLVM_LAF_SPLIT_FLOATS=1
 export AFL_LLVM_LAF_ALL=1
 #export AFL_HARDEN=1
 
-# Use Address Sanitizer
+# Activates the address sanitizer (memory corruption detection)
 export AFL_USE_ASAN=1
-export ASAN_OPTIONS=verbosity=3,detect_leaks=0,abort_on_error=1,symbolize=0,check_initialization_order=true,detect_stack_use_after_return=true,strict_string_checks=true,detect_invalid_pointer_pairs=2 
+export ASAN_OPTIONS=verbosity=3,detect_leaks=0,abort_on_error=1,symbolize=0,check_initialization_order=true,detect_stack_use_after_return=true,strict_string_checks=true,detect_invalid_pointer_pairs=2,malloc_context_size=0,allocator_may_return_null=1
+
+# Activates the Control Flow Integrity sanitizer
+# (e.g. type confusion vulnerabilities)
+export AFL_USE_CFISAN=1
+
+# Activates the leak sanitizer. To perform a leak check
+# within your program at a certain point (such as at the
+# end of an __AFL_LOOP()), you can run the macro __AFL_LEAK_CHECK();
+# which will cause an abort if any memory is leaked (you can combine
+# this with the __AFL_LSAN_OFF(); and __AFL_LSAN_ON(); macros to
+# avoid checking for memory leaks from memory allocated between these
+# two calls.
+# export AFL_USE_LSAN=1
+# export LSAN_OPTIONS=exit_deo=23,fast_unwind_on_malloc=0,symbolize=0,print_suppressions=0,detect_leaks=1,use_stacks=0,use_registers=0,use_globals=0,use_tls=0,verbosity=1
 
 # Use Memory Sanitizer
 # export AFL_USE_MSAN=1
 # export MSAN_OPTIONS=exit_code=86,abort_on_error=1,symbolize=0,msan_track_origins=0,allocator_may_return_null=1
 
+# Activates the thread sanitizer to find thread race conditions
+export AFL_USE_TSAN=1
+
 # Use Unexpected Behavior Sanitizer
 export AFL_USE_UBSAN=1
-
-# Use Control Flow Integrity Sanitizer
-export AFL_USE_CFISAN=1
 
 # Use Custom Mutators :)
 export AFL_CUSTOM_MUTATOR_LIBRARY=$radamsa_mutator:$honggfuzz_mutator
