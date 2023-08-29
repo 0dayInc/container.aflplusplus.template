@@ -93,8 +93,6 @@ afl_session_root="${fuzz_session_root}/AFLplusplus"
 afl_input="${afl_session_root}/input"
 afl_output="${afl_session_root}/multi_sync"
 
-# target_repo="${fuzz_session_root}/TARGET_SRC/${target_source_name}"
-target_repo="/opt/container.aflplusplus.template/TARGET_SRC/${target_source_name}"
 target_prefix="${fuzz_session_root}/TARGET"
 
 # Ensure folder conventions are intact
@@ -190,7 +188,7 @@ case $afl_mode in
     # Build out init_instrument_fuzz variable
     echo 'Initializing AFL++ Container, Instrumenting TARGET, and Starting AFL++'
     afl_init_container="${docker_repo_root}/TARGET/init_aflplusplus_container.sh"
-    afl_instrument_target="${docker_repo_root}/TARGET/instrument_target.sh ${target_repo}"
+    afl_instrument_target="${docker_repo_root}/TARGET/instrument_target.sh ${target_source_name}"
     # Copy TARGET Test Cases to $afl_input Folder
     cp $target_test_cases/* $afl_input 2> /dev/null
 
