@@ -25,6 +25,12 @@ export preferred_afl_ranlib='llvm-ranlib-14'
 export preferred_afl_ar='llvm-ar-14'
 export preferred_afl_nm='llvm-nm-14'
 
+# Causes AFL++ to set LD_PRELOAD for the target
+# binary without disrupting the afl-fuzz process
+# itself. This is useful, among other things, for
+# bootstrapping libdislocator.so
+export AFL_PRELOAD=1
+
 # Generate a dictionary in the target binary 
 # based on string compare and memory compare 
 # functions.  afl-fuzz will automatically get 
@@ -87,7 +93,7 @@ export AFL_USE_CFISAN=1
 # export MSAN_OPTIONS=exit_code=86,abort_on_error=1,symbolize=0,msan_track_origins=0,allocator_may_return_null=1
 
 # Activates the thread sanitizer to find thread race conditions
-export AFL_USE_TSAN=1
+# export AFL_USE_TSAN=1
 
 # Use Unexpected Behavior Sanitizer
 export AFL_USE_UBSAN=1
