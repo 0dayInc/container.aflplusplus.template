@@ -25,17 +25,17 @@ export preferred_afl_ranlib='llvm-ranlib-14'
 export preferred_afl_ar='llvm-ar-14'
 export preferred_afl_nm='llvm-nm-14'
 
+export AFL_AUTORESUME=1
+export AFL_IMPORT_FIRST=1
+export AFL_SKIP_CPUFREQ=0
+export AFL_SHUFFLE_QUEUE=1
+
 # Causes AFL++ to set LD_PRELOAD for the target
 # binary without disrupting the afl-fuzz process
 # itself. This is useful, among other things, for
 # bootstrapping libdislocator.so
 export AFL_PRELOAD=1
 export AFL_AS='/AFLplusplus/afl-as'
-
-export AFL_AUTORESUME=1
-export AFL_IMPORT_FIRST=1
-export AFL_SKIP_CPUFREQ=0
-export AFL_SHUFFLE_QUEUE=1
 
 # Generate a dictionary in the target binary 
 # based on string compare and memory compare 
