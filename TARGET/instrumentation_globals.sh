@@ -25,9 +25,26 @@ export preferred_afl_ranlib='llvm-ranlib-14'
 export preferred_afl_ar='llvm-ar-14'
 export preferred_afl_nm='llvm-nm-14'
 
+# Will resume a fuzz run (same as providing -i -)
+# for an existing out folder, even if a different
+# -i was provided. Without this setting, afl-fuzz
+# will refuse execution for a long-fuzzed out dir.
 export AFL_AUTORESUME=1
+
+# Causes the fuzzer to import test cases from other
+# instances before doing anything else. This makes
+# the “own finds” counter in the UI more accurate.
 export AFL_IMPORT_FIRST=1
+
+# Skips the check for CPU scaling policy. This is
+# useful if you can’t change the defaults (e.g., no
+# root access to the system) and are OK with some
+# performance loss.
 export AFL_SKIP_CPUFREQ=0
+
+# Randomly reorders the input queue on startup.
+# Requested by some users for unorthodox parallelized
+# fuzzing setups, but not advisable otherwise.
 export AFL_SHUFFLE_QUEUE=1
 
 # Causes AFL++ to set LD_PRELOAD for the target
@@ -35,6 +52,14 @@ export AFL_SHUFFLE_QUEUE=1
 # itself. This is useful, among other things, for
 # bootstrapping libdislocator.so
 export AFL_PRELOAD=1
+
+# Enable the April 1st stats menu, set to -1 to
+# disable although it is 1st of April.
+export AFL_PIZZA_MODE=1
+
+# Helper application for afl-fuzz. It is a wrapper
+# around GNU 'as', executed by the toolchain whenever
+# using afl-gcc or afl-clang
 export AFL_AS='/AFLplusplus/afl-as'
 
 # Generate a dictionary in the target binary 
