@@ -151,6 +151,7 @@ fi
 
 fuzz_session_init="
   ${fuzz_session_init}
+  echo 'USE_ZEND_ALLOC: ${USE_ZEND_ALLOC}' &&
   afl-fuzz \
     ${afl_mode_selection} \
     -T AFLplusplus \
@@ -159,7 +160,7 @@ fuzz_session_init="
     -m none \
     -t 6000+ \
     -D \
-    -- ${target_name}
+    -- ${target_name};
 "
 
 case $afl_mode in
@@ -189,7 +190,7 @@ case $afl_mode in
     # Copy TARGET Test Cases to $afl_input Folder
     cp $target_test_cases/* $afl_input 2> /dev/null
 
-    init_instrument_fuzz="${afl_init_container} && ${afl_instrument_target} && ${fuzz_session_init}"
+    init_instrument_fuzz="${afl_init_container}; ${afl_instrument_target}; ${fuzz_session_init}"
 
     if [[ $debug == 'true' ]]; then
       echo 'Preparing to exec:'
@@ -218,18 +219,22 @@ case $afl_mode in
     # NOTE: DEPENDING ON YOUR NEEDS, YOU MAY NEED TO ASSIGN MORE
     # BIND MOUNTS TO THE DOCKER CONTAINER
     docker_name="aflplusplus.${this_session_rand}"
-    tmux new -s "afl_M_$this_session_rand" \
-      "docker run \
+    # tmux new -s "afl_M_$this_session_rand" \
+      docker run \
         --privileged \
         --rm \
-        --name \"${docker_name}\" \
+        --name "${docker_name}" \
         --mount type=bind,source=$this_repo_root,target=$docker_repo_root \
         --mount type=bind,source=$fuzz_session_root,target=$fuzz_session_root \
         --interactive \
         --tty aflplusplus/aflplusplus:dev \
         /bin/bash --login \
-          -c \"${init_instrument_fuzz}\"
-      "
+          -c "
+            ${init_instrument_fuzz};
+            printf 'AFL++ Container Shutting Down in 30 Seconds';
+            for i in {1..30}; do printf '.'; sleep 1; done
+          "
+      
     
     sudo sysctl -w kernel.unprivileged_userns_clone=0
     ;;

@@ -3,14 +3,23 @@ other_repos_root='/opt'
 docker_repo_root="${other_repos_root}/container.aflplusplus.template"
 aflplusplus_source_root='/AFLplusplus'
 custom_mutators_root="${aflplusplus_source_root}/custom_mutators"
-honggfuzz_root="${other_repos_root}/honggfuzz"
 radamsa_root="${other_repos_root}/radamsa"
 
+aflpp_mutator="${custom_mutators_root}/aflpp"
+atnwalk_mutator="${custom_mutators_root}/atnwalk"
+gramatron_mutator="${custom_mutators_root}/gramatron"
 honggfuzz_mutator="${custom_mutators_root}/honggfuzz"
-radamsa_mutator="${custom_mutators_root}/radamasa"
+libafl_base_mutator="${custom_mutators_root}/libafl_base"
+libfuzzer_mutator="${custom_mutators_root}/libfuzzer"
+symcc_mutator="${custom_mutators_root}/symcc"
+symqemu_mutator="${custom_mutators_root}/symqemu"
+radamsa_mutator="${custom_mutators_root}/radamsa"
 
 fuzz_session_root='/fuzz_session'
 target_prefix="${fuzz_session_root}/TARGET"
+
+# Ensure instrumentation_globals.sh is always sourced
+echo "source ${docker_repo_root}/TARGET/instrumentation_globals.sh" >> /etc/bash.bashrc
 
 # Initialize Docker Container w Tooling ----------------------------------#
 apt update
@@ -35,29 +44,24 @@ apt install -y \
   libblocksruntime-dev \
   clang
 
-# Ensure instrumentation_globals.sh is always sourced
-echo "source ${docker_repo_root}/TARGET/instrumentation_globals.sh" >> /etc/bash.bashrc
-
 # Build ALL of AFL++ in the Container
 cd $aflplusplus_source_root && make all && make install
 
 # Install Radamsa to Support -R flag in afl-fuzz
 # (i.e. Include Radamsa for test case mutation)
-cd $other_repos_root
-git clone https://github.com/google/honggfuzz.git
-git clone https://gitlab.com/akihe/radamsa.git
-
-# Build Honggfuzz
-cd $honggfuzz_root && make && make install
-
-# Make Honggfuzz Mutator
-cd $honggfuzz_mutator && make
-
-# Build Radamsa
+cd $other_repos_root && git clone https://gitlab.com/akihe/radamsa.git
 cd $radamsa_root && make && make install
 
-# Make Radamsa Mutator
+# Make Custom Mutators
+cd $aflpp_mutator && make
+cd $atnwalk_mutator && make
+cd $gramatron_mutator && ./build_gramatron_mutator.sh
+cd $honggfuzz_mutator && make
+cd $libafl_base_mutator && make
+cd $libfuzzer_mutator && make
 cd $radamsa_mutator && make
+cd $symcc_mutator && make
+cd $symqemu_mutator && make
 
 # Configure logrotate to rotate logs every hour
 logrotate_script='/usr/local/sbin/logrotate.sh'
