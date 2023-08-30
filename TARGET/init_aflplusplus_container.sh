@@ -1,6 +1,6 @@
 #!/bin/bash --login
 other_repos_root='/opt'
-docker_repo_root="${other_repos_root}/container.aflplusplus.wrapper"
+docker_repo_root="${other_repos_root}/container.aflplusplus.template"
 aflplusplus_source_root='/AFLplusplus'
 custom_mutators_root="${aflplusplus_source_root}/custom_mutators"
 honggfuzz_root="${other_repos_root}/honggfuzz"
@@ -37,6 +37,7 @@ apt install -y \
 
 # Ensure instrumentation_globals.sh is always sourced
 echo "source ${docker_repo_root}/TARGET/instrumentation_globals.sh" >> /etc/bash.bashrc
+
 # Build ALL of AFL++ in the Container
 cd $aflplusplus_source_root && make all && make install
 
