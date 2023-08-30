@@ -25,6 +25,9 @@ export preferred_afl_ranlib='llvm-ranlib-14'
 export preferred_afl_ar='llvm-ar-14'
 export preferred_afl_nm='llvm-nm-14'
 
+# We care about missing crashes...or do we?
+export AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=0
+
 # Will resume a fuzz run (same as providing -i -)
 # for an existing out folder, even if a different
 # -i was provided. Without this setting, afl-fuzz
