@@ -1,58 +1,55 @@
 #!/bin/bash --login
-other_repos_root='/opt'
-docker_repo_root="${other_repos_root}/container.aflplusplus.template"
-aflplusplus_source_root='/AFLplusplus'
-custom_mutators_root="${aflplusplus_source_root}/custom_mutators"
-radamsa_root="${other_repos_root}/radamsa"
+container_afl_template_path='/opt/container.aflplusplus.template'
+intrumentation_globals="${container_afl_template_path}/TARGET/instrumentation_globals.sh"
+source $intrumentation_globals
 
-aflpp_mutator="${custom_mutators_root}/aflpp"
-atnwalk_mutator="${custom_mutators_root}/atnwalk"
-gramatron_mutator="${custom_mutators_root}/gramatron"
-honggfuzz_mutator="${custom_mutators_root}/honggfuzz"
-libafl_base_mutator="${custom_mutators_root}/libafl_base"
-libfuzzer_mutator="${custom_mutators_root}/libfuzzer"
-symcc_mutator="${custom_mutators_root}/symcc"
-symqemu_mutator="${custom_mutators_root}/symqemu"
-radamsa_mutator="${custom_mutators_root}/radamsa"
-
-fuzz_session_root='/fuzz_session'
-target_prefix="${fuzz_session_root}/TARGET"
+radamsa_root="/opt/radamsa"
 
 # Ensure instrumentation_globals.sh is always sourced
-echo "source ${docker_repo_root}/TARGET/instrumentation_globals.sh" >> /etc/bash.bashrc
+echo "source ${instrumentation_globals}" >> /etc/bash.bashrc
 
 # Initialize Docker Container w Tooling ----------------------------------#
 apt update
 apt full-upgrade -y
 apt install -y \
-  subversion \
+  apt-file \
+  binutils-dev \
+  clang \
+  curl \
+  coreutils \
+  git \
+  libblocksruntime-dev \
   libssl-dev \
-  pkg-config \
-  strace \
+  libunwind-dev \
+  logrotate \
+  lsof \
   netstat-nat \
   net-tools \
-  apt-file \
-  tcpdump \
-  lsof \
-  psmisc \
-  logrotate \
-  curl \
   openssh-server \
-  git \
-  binutils-dev \
-  libunwind-dev \
-  libblocksruntime-dev \
-  clang
+  pkg-config \
+  psmisc \
+  strace \
+  subversion \
+  tcpdump
 
 # Build ALL of AFL++ in the Container
 cd $aflplusplus_source_root && make all && make install
 
 # Install Radamsa to Support -R flag in afl-fuzz
 # (i.e. Include Radamsa for test case mutation)
-cd $other_repos_root && git clone https://gitlab.com/akihe/radamsa.git
+cd $(dirname $radamsa_root) && git clone https://gitlab.com/akihe/radamsa.git
 cd $radamsa_root && make && make install
 
 # Make Custom Mutators
+aflpp_mutator=$(dirname $aflpp_so)
+atnwalk_mutator=$(dirname $atnwalk_so)
+gramatron_mutator=$(dirname $gramatron_so)
+honggfuzz_mutator=$(dirname $honggfuzz_so)
+libafl_base_mutator=$(dirname $libafl_base_so)
+libfuzzer_mutator=$(dirname $libfuzzer_so)
+symcc_mutator=$(dirname $symcc_so)
+symqemu_mutator=$(dirname $symqemu_so)
+radamsa_mutator=$(dirname $radamsa_so)
 cd $aflpp_mutator && make
 cd $atnwalk_mutator && make
 cd $gramatron_mutator && ./build_gramatron_mutator.sh

@@ -1,4 +1,4 @@
-#!/bin/bash --login
+#!/bin/bash
 # INSTRUMENTATION GLOBALS:
 # FOR MORE DETAILS, SEE: https://aflplus.plus/docs/env_variables/
 
@@ -8,6 +8,18 @@
 export USE_ZEND_ALLOC=0
 # --------------------------------------------------------------------------#
 
+# --------------------------------------------------------------------------#
+# ***LEAVE THESE VARIABLES ALONE - THEY'RE USED THROUGHOUT THIS PROJECT***  #
+# --------------------------------------------------------------------------#
+fuzz_session_root='/fuzz_session'
+target_prefix="${fuzz_session_root}/TARGET"
+aflplusplus_source_root='/AFLplusplus'
+container_afl_template_path='/opt/container.aflplusplus.template'
+# --------------------------------------------------------------------------#
+
+# --------------------------------------------------------------------------#
+# AFL OPTIONS: TWEAK FOR YOUR SEPCIFIC TARGET                               #
+# --------------------------------------------------------------------------#
 # Set path of GNU linker
 export LD=/usr/bin/ld
 
@@ -72,7 +84,7 @@ export AFL_PIZZA_MODE=1
 # Helper application for afl-fuzz. It is a wrapper
 # around GNU 'as', executed by the toolchain whenever
 # using afl-gcc or afl-clang
-export AFL_AS='/AFLplusplus/afl-as'
+export AFL_AS="${aflplusplus_source_root}/afl-as"
 
 # Generate a dictionary in the target binary 
 # based on string compare and memory compare 
@@ -142,19 +154,20 @@ export AFL_USE_CFISAN=1
 export AFL_USE_UBSAN=1
 
 # Use Custom Mutators :)
-custom_mutators_root='/AFLplusplus/custom_mutators'
-aflpp_m="${custom_mutators_root}/aflpp/aflpp-mutator.so"
-atnwalk_m="${custom_mutators_root}/atnwalk/atnwalk.so"
-autotokens_m="${custom_mutators_root}/autotokens/autotokens.so"
-gramatron_m="${custom_mutators_root}/gramatron/gramatron.so"
-honggfuzz_m="${custom_mutators_root}/honggfuzz/honggfuzz-mutator.so"
-libafl_base_m="${custom_mutators_root}/libafl_base/libafl_base.so"
-libfuzzer_m="${custom_mutators_root}/libfuzzer/libfuzzer-mutator.so"
-radamsa_m="${custom_mutators_root}/radamsa/radamsa-mutator.so"
-symcc_m="${custom_mutators_root}/symcc/symcc-mutator.so"
-symqemu_m="${custom_mutators_root}/symqemu/symqemu-mutator.so"
-export AFL_CUSTOM_MUTATOR_LIBRARY="${aflpp_m};${atnwalk_m};${autotokens_m};${gramatron_m};${honggfuzz_m};${libafl_base_m};${libfuzzer_m};${radamsa_m};${symcc_m};${symqemu_m}"
+custom_mutators_root="${aflplusplus_source_root}/custom_mutators"
+aflpp_so="${custom_mutators_root}/aflpp/aflpp-mutator.so"
+atnwalk_so="${custom_mutators_root}/atnwalk/atnwalk.so"
+autotokens_so="${custom_mutators_root}/autotokens/autotokens.so"
+gramatron_so="${custom_mutators_root}/gramatron/gramatron.so"
+honggfuzz_so="${custom_mutators_root}/honggfuzz/honggfuzz-mutator.so"
+libafl_base_so="${custom_mutators_root}/libafl_base/libafl_base.so"
+libfuzzer_so="${custom_mutators_root}/libfuzzer/libfuzzer-mutator.so"
+radamsa_so="${custom_mutators_root}/radamsa/radamsa-mutator.so"
+symcc_so="${custom_mutators_root}/symcc/symcc-mutator.so"
+symqemu_so="${custom_mutators_root}/symqemu/symqemu-mutator.so"
+export AFL_CUSTOM_MUTATOR_LIBRARY="${aflpp_so};${atnwalk_so};${autotokens_so};${gramatron_so};${honggfuzz_so};${libafl_base_so};${libfuzzer_so};${radamsa_so};${symcc_so};${symqemu_so}"
 
 # DEBUG
 export AFL_DEBUG=1
 export AFL_DEBUG_CHILD=0
+# --------------------------------------------------------------------------#

@@ -51,7 +51,7 @@ debug='false'
 while getopts "hT:m:r:cntLD" flag; do
   case $flag in
     'h') usage;;
-    'T') target_name="${OPTARG}";;
+    'T') target_cmd="${OPTARG}";;
     'm') afl_mode="${OPTARG}";;
     'r') target_source_name="${OPTARG}";;
     'c') nuke_target_prefix='true';;
@@ -83,17 +83,16 @@ if [[ $afl_mode != 'main' ]]; then
 fi
 
 this_repo_root=$(pwd)
-this_repo_name=`basename ${this_repo_root}`
-docker_repo_root="/opt/${this_repo_name}"
+instrumentation_globals="${this_repo_root}/TARGET/instrumentation_globals.sh"
 
-fuzz_session_root='/fuzz_session'
+# Initialize Instrumentation Globals / Variables
+source $instrumentation_globals
+
 target_test_cases="${this_repo_root}/TARGET/test_cases"
 
 afl_session_root="${fuzz_session_root}/AFLplusplus"
 afl_input="${afl_session_root}/input"
 afl_output="${afl_session_root}/multi_sync"
-
-target_prefix="${fuzz_session_root}/TARGET"
 
 # Ensure folder conventions are intact
 if [[ ! -d $fuzz_session_root ]]; then
@@ -133,13 +132,13 @@ fi
 # Initialize Fuzz Session
 # TODO: Figure out what values were before so 
 # they can be reversed when fuzz session is complete
-fuzz_session_init='
+fuzz_session_init="
   echo core > /proc/sys/kernel/core_pattern &&
   echo never > /sys/kernel/mm/transparent_hugepage/enabled &&
   echo 1 >/proc/sys/kernel/sched_child_runs_first &&
   echo 1 >/proc/sys/kernel/sched_autogroup_enabled &&
-  source /opt/container.aflplusplus.template/TARGET/instrumentation_globals.sh &&
-'
+  source ${instrumentation_globals} &&
+"
 
 if [[ $debug == 'true' ]]; then
   fuzz_session_init="
@@ -160,7 +159,7 @@ fuzz_session_init="
     -m none \
     -t 6000+ \
     -D \
-    -- ${target_name};
+    -- ${target_cmd}
 "
 
 case $afl_mode in
@@ -185,8 +184,8 @@ case $afl_mode in
 
     # Build out init_instrument_fuzz variable
     echo 'Initializing AFL++ Container, Instrumenting TARGET, and Starting AFL++'
-    afl_init_container="${docker_repo_root}/TARGET/init_aflplusplus_container.sh"
-    afl_instrument_target="${docker_repo_root}/TARGET/instrument_target.sh ${target_source_name}"
+    afl_init_container="${container_afl_template_path}/TARGET/init_aflplusplus_container.sh"
+    afl_instrument_target="${container_afl_template_path}/TARGET/instrument_target.sh ${target_source_name}"
     # Copy TARGET Test Cases to $afl_input Folder
     cp $target_test_cases/* $afl_input 2> /dev/null
 
@@ -224,14 +223,15 @@ case $afl_mode in
         --privileged \
         --rm \
         --name "${docker_name}" \
-        --mount type=bind,source=$this_repo_root,target=$docker_repo_root \
+        --mount type=bind,source=$this_repo_root,target=$container_afl_template_path \
         --mount type=bind,source=$fuzz_session_root,target=$fuzz_session_root \
         --interactive \
         --tty aflplusplus/aflplusplus:dev \
         /bin/bash --login \
           -c "
-            ${init_instrument_fuzz};
-            printf 'AFL++ Container Shutting Down in 30 Seconds';
+            source ${instrumentation_globals} &&
+            ${init_instrument_fuzz} &&
+            printf 'AFL++ Container Shutting Down in 30 Seconds' &&
             for i in {1..30}; do printf '.'; sleep 1; done
           "
       
@@ -247,7 +247,10 @@ case $afl_mode in
         --interactive \
         --tty $afl_main_name \
         /bin/bash --login \
-        -c \"${fuzz_session_init}\"
+        -c \"
+          source ${instrumentation_globals} &&
+          ${fuzz_session_init}
+        \"
       "
       ;;
 
