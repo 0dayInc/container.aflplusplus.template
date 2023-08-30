@@ -1,9 +1,13 @@
 #!/bin/bash --login
 other_repos_root='/opt'
-docker_repo_root="${other_repos_root}/container.aflplusplus.wrapper"
-custom_mutators_root="${other_repos_root}/AFLplusplus/custom_mutators"
+docker_repo_root="${other_repos_root}/container.aflplusplus.template"
+aflplusplus_source_root='/AFLplusplus'
+custom_mutators_root="${aflplusplus_source_root}/custom_mutators"
+honggfuzz_root="${other_repos_root}/honggfuzz"
 radamsa_root="${other_repos_root}/radamsa"
-honggfuzz_root="${custom_mutators_root}/honggfuzz"
+
+honggfuzz_mutator="${custom_mutators_root}/honggfuzz"
+radamsa_mutator="${custom_mutators_root}/radamasa"
 
 fuzz_session_root='/fuzz_session'
 target_prefix="${fuzz_session_root}/TARGET"
@@ -25,22 +29,35 @@ apt install -y \
   logrotate \
   curl \
   openssh-server \
-  git
+  git \
+  binutils-dev \
+  libunwind-dev \
+  libblocksruntime-dev \
+  clang
+
+# Ensure instrumentation_globals.sh is always sourced
+echo "source ${docker_repo_root}/TARGET/instrumentation_globals.sh" >> /etc/bash.bashrc
+
+# Build ALL of AFL++ in the Container
+cd $aflplusplus_source_root && make all && make install
 
 # Install Radamsa to Support -R flag in afl-fuzz
 # (i.e. Include Radamsa for test case mutation)
 cd $other_repos_root
-git clone https://github.com/AFLplusplus/AFLplusplus
+git clone https://github.com/google/honggfuzz.git
 git clone https://gitlab.com/akihe/radamsa.git
 
-# Make Honggfuzz
-cd $honggfuzz_root
-make
+# Build Honggfuzz
+cd $honggfuzz_root && make && make install
+
+# Make Honggfuzz Mutator
+cd $honggfuzz_mutator && make
 
 # Build Radamsa
-cd $radamsa_root
-make
-make install
+cd $radamsa_root && make && make install
+
+# Make Radamsa Mutator
+cd $radamsa_mutator && make
 
 # Configure logrotate to rotate logs every hour
 logrotate_script='/usr/local/sbin/logrotate.sh'

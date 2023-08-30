@@ -2,7 +2,7 @@
 # INSTRUMENTATION GLOBALS:
 # FOR MORE DETAILS, SEE: https://aflplus.plus/docs/env_variables/
 
-custom_mutators_root='/opt/AFLplusplus/custom_mutators'
+custom_mutators_root='/AFLplusplus/custom_mutators'
 radamsa_mutator="${custom_mutators_root}/radamsa/radamsa-mutator.so"
 honggfuzz_mutator="${custom_mutators_root}/honggfuzz/honggfuzz.so"
 

@@ -2,9 +2,7 @@
 target_source_name="${1}"
 docker_repo_root='/opt/container.aflplusplus.template'
 target_repo="${docker_repo_root}/TARGET_SRC/${target_source_name}"
-
-# Build ALL of AFL++ in the Container
-cd /AFLplusplus && make all && make install
+aflplusplus_source_root='/AFLplusplus'
 
 # Provide an opportunity to troubleshoot the container
 bash --login -c "
@@ -16,9 +14,6 @@ bash --login -c "
   /bin/bash --login
 "
 
-# Define Target Instrumentation via instrumentation_globals.sh
-source $docker_repo_root/TARGET/instrumentation_globals.sh
-
 # --------------------------------------------------------------------------#
 # Reserved for Specific ENV Settings Related to the Target Binary           #
 # --------------------------------------------------------------------------#
@@ -26,6 +21,8 @@ export USE_ZEND_ALLOC=0
 # --------------------------------------------------------------------------#
 
 # THIS IS AN EXAMPLE OF HOW TO BUILD A TARGET FOLLOWING INSTRUMENTATION
+# Variables not declared in this script are declared in instrumentation_globals
+# and are sourced via /etc/bash.bashrc in the Docker container.
 cd $target_repo && CC=$preferred_afl CXX=$preferred_aflplusplus RANLIB=$preferred_afl_ranlib AR=$preferred_afl_ar NM=$preferred_alf_nm make clean
 cd $target_repo && CC=$preferred_afl CXX=$preferred_aflplusplus RANLIB=$preferred_afl_ranlib AR=$preferred_afl_ar NM=$preferred_alf_nm ./buildconf --force
 cd ${target_repo} && CC=$preferred_afl CXX=$preferred_aflplusplus RANLIB=$preferred_afl_ranlib AR=$preferred_afl_ar NM=$preferred_afl_nm ./configure
