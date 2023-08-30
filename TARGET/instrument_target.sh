@@ -14,12 +14,6 @@ bash --login -c "
   /bin/bash --login
 "
 
-# --------------------------------------------------------------------------#
-# Reserved for Specific ENV Settings Related to the Target Binary           #
-# --------------------------------------------------------------------------#
-export USE_ZEND_ALLOC=0
-# --------------------------------------------------------------------------#
-
 # THIS IS AN EXAMPLE OF HOW TO BUILD A TARGET FOLLOWING INSTRUMENTATION
 # Variables not declared in this script are declared in instrumentation_globals
 # and are sourced via /etc/bash.bashrc in the Docker container.

@@ -2,9 +2,11 @@
 # INSTRUMENTATION GLOBALS:
 # FOR MORE DETAILS, SEE: https://aflplus.plus/docs/env_variables/
 
-custom_mutators_root='/AFLplusplus/custom_mutators'
-radamsa_mutator="${custom_mutators_root}/radamsa/radamsa-mutator.so"
-honggfuzz_mutator="${custom_mutators_root}/honggfuzz/honggfuzz.so"
+# --------------------------------------------------------------------------#
+# Reserved for Specific ENV Settings Related to the Target Binary           #
+# --------------------------------------------------------------------------#
+export USE_ZEND_ALLOC=0
+# --------------------------------------------------------------------------#
 
 # Set path of GNU linker
 export LD=/usr/bin/ld
@@ -140,8 +142,19 @@ export AFL_USE_CFISAN=1
 export AFL_USE_UBSAN=1
 
 # Use Custom Mutators :)
-export AFL_CUSTOM_MUTATOR_LIBRARY=$radamsa_mutator:$honggfuzz_mutator
+custom_mutators_root='/AFLplusplus/custom_mutators'
+aflpp_m="${custom_mutators_root}/aflpp/aflpp-mutator.so"
+atnwalk_m="${custom_mutators_root}/atnwalk/atnwalk.so"
+autotokens_m="${custom_mutators_root}/autotokens/autotokens.so"
+gramatron_m="${custom_mutators_root}/gramatron/gramatron.so"
+honggfuzz_m="${custom_mutators_root}/honggfuzz/honggfuzz-mutator.so"
+libafl_base_m="${custom_mutators_root}/libafl_base/libafl_base.so"
+libfuzzer_m="${custom_mutators_root}/libfuzzer/libfuzzer-mutator.so"
+radamsa_m="${custom_mutators_root}/radamsa/radamsa-mutator.so"
+symcc_m="${custom_mutators_root}/symcc/symcc-mutator.so"
+symqemu_m="${custom_mutators_root}/symqemu/symqemu-mutator.so"
+export AFL_CUSTOM_MUTATOR_LIBRARY=$aflpp_m:$atnwalk_m:$autotokens_m:$gramatron_m:$honggfuzz_m:$libafl_base_m:$libfuzzer_m:$radamsa_m:$symcc_m:$symqemu_m
 
 # DEBUG
-export AFL_DEBUG=0
+export AFL_DEBUG=1
 export AFL_DEBUG_CHILD=0
