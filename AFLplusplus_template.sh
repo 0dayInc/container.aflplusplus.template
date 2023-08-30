@@ -241,7 +241,7 @@ case $afl_mode in
 
   'secondary')
     # Run Secondary
-    afl_main_name=`docker ps -a | grep aflplusplus.$target_name | awk '{print $NF}'`
+    afl_main_name=`docker ps | grep aflplusplus | awk '{print $NF}'`
     tmux new -s "afl_S_$this_session_rand" \
       "docker exec \
         --interactive \
