@@ -138,19 +138,19 @@ fuzz_session_init='
   echo never > /sys/kernel/mm/transparent_hugepage/enabled &&
   echo 1 >/proc/sys/kernel/sched_child_runs_first &&
   echo 1 >/proc/sys/kernel/sched_autogroup_enabled &&
-  source /opt/container.aflplusplus.template/TARGET/instrumentation_globals.sh
+  source /opt/container.aflplusplus.template/TARGET/instrumentation_globals.sh &&
 '
 
 if [[ $debug == 'true' ]]; then
   fuzz_session_init="
     ${fuzz_session_init} &&
     export AFL_DEBUG=1 &&
-    export AFL_DEBUG_CHILD=1
+    export AFL_DEBUG_CHILD=1 &&
   "
 fi
 
 fuzz_session_init="
-  ${fuzz_session_init} &&
+  ${fuzz_session_init}
   afl-fuzz \
     ${afl_mode_selection} \
     -T AFLplusplus \
