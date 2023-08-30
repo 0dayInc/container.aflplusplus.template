@@ -153,7 +153,7 @@ libfuzzer_m="${custom_mutators_root}/libfuzzer/libfuzzer-mutator.so"
 radamsa_m="${custom_mutators_root}/radamsa/radamsa-mutator.so"
 symcc_m="${custom_mutators_root}/symcc/symcc-mutator.so"
 symqemu_m="${custom_mutators_root}/symqemu/symqemu-mutator.so"
-export AFL_CUSTOM_MUTATOR_LIBRARY=$aflpp_m:$atnwalk_m:$autotokens_m:$gramatron_m:$honggfuzz_m:$libafl_base_m:$libfuzzer_m:$radamsa_m:$symcc_m:$symqemu_m
+export AFL_CUSTOM_MUTATOR_LIBRARY="${aflpp_m};${atnwalk_m};${autotokens_m};${gramatron_m};${honggfuzz_m};${libafl_base_m};${libfuzzer_m};${radamsa_m};${symcc_m};${symqemu_m}"
 
 # DEBUG
 export AFL_DEBUG=1
