@@ -149,7 +149,6 @@ fi
 
 fuzz_session_init="
   ${fuzz_session_init} &&
-  export USE_ZEND_ALLOC=0 &&
   afl-fuzz \
     ${afl_mode_selection} \
     -T AFLplusplus \
