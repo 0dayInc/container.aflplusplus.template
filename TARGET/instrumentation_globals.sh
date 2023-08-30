@@ -140,5 +140,5 @@ export AFL_USE_UBSAN=1
 export AFL_CUSTOM_MUTATOR_LIBRARY=$radamsa_mutator:$honggfuzz_mutator
 
 # DEBUG
-export AFL_DEBUG=1
-export AFL_DEBUG_CHILD=1
+export AFL_DEBUG=0
+export AFL_DEBUG_CHILD=0
