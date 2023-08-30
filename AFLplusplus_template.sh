@@ -218,7 +218,6 @@ case $afl_mode in
 
     # NOTE: DEPENDING ON YOUR NEEDS, YOU MAY NEED TO ASSIGN MORE
     # BIND MOUNTS TO THE DOCKER CONTAINER
-    # tmux new -s "afl++_MAIN_${target_name}_${this_session_rand}" \
     docker_name="aflplusplus.${this_session_rand}"
     tmux new -s "afl_M_$this_session_rand" \
       "docker run \

@@ -8,11 +8,11 @@ cd /AFLplusplus && make all && make install
 
 # Provide an opportunity to troubleshoot the container
 bash --login -c "
-  echo '#--------------------------------------------------------#;
-  echo '| Welcome to the AFL++ Container...';                    |
-  echo '| Feel Free to Browse the Filesystem, Troubleshoot, etc.'|;
-  echo '| Press CTRL+D to Begin Building the Instrumented Target'|;
-  echo '#--------------------------------------------------------#;
+  echo '#--------------------------------------------------------#';
+  echo '| Welcome to the AFL++ Container...                      |';
+  echo '| Feel Free to Browse the Filesystem, Troubleshoot, etc. |';
+  echo '| Press CTRL+D to Begin Building the Instrumented Target |';
+  echo '#--------------------------------------------------------#';
   /bin/bash --login
 "
 
