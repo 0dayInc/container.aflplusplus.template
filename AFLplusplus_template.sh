@@ -137,7 +137,8 @@ fuzz_session_init='
   echo core > /proc/sys/kernel/core_pattern &&
   echo never > /sys/kernel/mm/transparent_hugepage/enabled &&
   echo 1 >/proc/sys/kernel/sched_child_runs_first &&
-  echo 1 >/proc/sys/kernel/sched_autogroup_enabled
+  echo 1 >/proc/sys/kernel/sched_autogroup_enabled &&
+  source /opt/container.aflplusplus.template/TARGET/instrumentation_globals.sh
 '
 
 if [[ $debug == 'true' ]]; then
