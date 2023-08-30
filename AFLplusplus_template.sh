@@ -143,8 +143,9 @@ fuzz_session_init='
 
 if [[ $debug == 'true' ]]; then
   fuzz_session_init="
-    ${fuzz_session_init}
-    export AFL_DEBUG_CHILD=1 &&
+    ${fuzz_session_init} &&
+    export AFL_DEBUG=1 &&
+    export AFL_DEBUG_CHILD=1
   "
 fi
 
@@ -188,9 +189,7 @@ case $afl_mode in
     # Copy TARGET Test Cases to $afl_input Folder
     cp $target_test_cases/* $afl_input 2> /dev/null
 
-    init_instrument_fuzz="${afl_init_container} &&"
-    init_instrument_fuzz="${afl_instrument_target} &&"
-    init_instrument_fuzz="${init_instrument_fuzz} ${fuzz_session_init}"
+    init_instrument_fuzz="${afl_init_container} && ${afl_instrument_target} && ${fuzz_session_init}"
 
     if [[ $debug == 'true' ]]; then
       echo 'Preparing to exec:'
