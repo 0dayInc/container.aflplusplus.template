@@ -3,8 +3,6 @@ container_afl_template_path='/opt/container.aflplusplus.template'
 intrumentation_globals="${container_afl_template_path}/TARGET/instrumentation_globals.sh"
 source $intrumentation_globals
 
-radamsa_root="/opt/radamsa"
-
 # Ensure instrumentation_globals.sh is always sourced
 echo "source ${instrumentation_globals}" >> /etc/bash.bashrc
 
@@ -33,10 +31,13 @@ apt install -y \
   tcpdump
 
 # Build ALL of AFL++ in the Container
-cd $aflplusplus_source_root && make all && make install
+# Per https://github.com/AFLplusplus/AFLplusplus/blob/stable/docs/INSTALL.md
+# "distrib: everything (for both binary-only and source code fuzzing)"
+cd $aflplusplus_source_root && make distrib && make install
 
 # Install Radamsa to Support -R flag in afl-fuzz
 # (i.e. Include Radamsa for test case mutation)
+radamsa_root="/opt/radamsa"
 cd $(dirname $radamsa_root) && git clone https://gitlab.com/akihe/radamsa.git
 cd $radamsa_root && make && make install
 
