@@ -19,6 +19,12 @@ bash --login -c "
 # Define Target Instrumentation via instrumentation_globals.sh
 source $docker_repo_root/TARGET/instrumentation_globals.sh
 
+# --------------------------------------------------------------------------#
+# Reserved for Specific ENV Settings Related to the Target Binary           #
+# --------------------------------------------------------------------------#
+export USE_ZEND_ALLOC=0
+# --------------------------------------------------------------------------#
+
 # THIS IS AN EXAMPLE OF HOW TO BUILD A TARGET FOLLOWING INSTRUMENTATION
 cd $target_repo && CC=$preferred_afl CXX=$preferred_aflplusplus RANLIB=$preferred_afl_ranlib AR=$preferred_afl_ar NM=$preferred_alf_nm make clean
 cd $target_repo && CC=$preferred_afl CXX=$preferred_aflplusplus RANLIB=$preferred_afl_ranlib AR=$preferred_afl_ar NM=$preferred_alf_nm ./buildconf --force

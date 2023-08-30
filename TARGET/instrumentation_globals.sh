@@ -53,6 +53,13 @@ export AFL_SHUFFLE_QUEUE=1
 # bootstrapping libdislocator.so
 export AFL_PRELOAD=1
 
+# Causes afl-fuzz to terminate when all existing
+# paths have been fuzzed and there were no new finds
+# for a while. This would be normally indicated by
+# the cycle counter in the UI turning green. May be
+# convenient for some types of automated jobs.
+export AFL_EXIT_WHEN_DONE=0
+
 # Enable the April 1st stats menu, set to -1 to
 # disable although it is 1st of April.
 export AFL_PIZZA_MODE=1
