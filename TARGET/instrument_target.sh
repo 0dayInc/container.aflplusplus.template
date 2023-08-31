@@ -1,8 +1,8 @@
 # #!/bin/bash --login
 target_source_name="${1}"
 container_afl_template_path='/opt/container.aflplusplus.template'
-intrumentation_globals="${container_afl_template_path}/TARGET/instrumentation_globals.sh"
-source $intrumentation_globals
+instrumentation_globals="${container_afl_template_path}/TARGET/instrumentation_globals.sh"
+source $instrumentation_globals
 target_repo="${container_afl_template_path}/TARGET_SRC/${target_source_name}"
 
 # Provide an opportunity to troubleshoot the container
