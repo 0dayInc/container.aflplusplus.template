@@ -42,7 +42,7 @@ cd $aflplusplus_source_root && git checkout dev && make distrib && make install
 # Install Radamsa to Support -R flag in afl-fuzz
 # (i.e. Include Radamsa for test case mutation)
 radamsa_root="/opt/radamsa"
-cd $(dirname $radamsa_root) && git clone https://gitlab.com/akihe/radamsa.git
+cd / && git clone https://gitlab.com/akihe/radamsa.git
 cd $radamsa_root && make && make install
 
 # Make Custom Mutators
