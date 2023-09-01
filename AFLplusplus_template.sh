@@ -150,7 +150,6 @@ fi
 
 fuzz_session_init="
   ${fuzz_session_init}
-  echo 'USE_ZEND_ALLOC: ${USE_ZEND_ALLOC}' &&
   afl-fuzz \
     ${afl_mode_selection} \
     -T AFLplusplus \
@@ -189,7 +188,7 @@ case $afl_mode in
     # Copy TARGET Test Cases to $afl_input Folder
     cp $target_test_cases/* $afl_input 2> /dev/null
 
-    init_instrument_fuzz="${afl_init_container}; ${afl_instrument_target}; ${fuzz_session_init}"
+    init_instrument_fuzz="${afl_init_container} && ${afl_instrument_target} && ${fuzz_session_init}"
 
     if [[ $debug == 'true' ]]; then
       echo 'Preparing to exec:'
