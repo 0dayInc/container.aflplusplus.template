@@ -33,10 +33,11 @@ apt install -y \
 # Build ALL of AFL++ in the Container
 # Per https://github.com/AFLplusplus/AFLplusplus/blob/stable/docs/INSTALL.md
 # "distrib: everything (for both binary-only and source code fuzzing)"
+cd /
 if [[ -d $aflplusplus_source_root ]]; then
   rm -rf $aflplusplus_source_root
 fi
-cd $(dirname ${aflplusplus_source_root}) && git clone https://github.com/AFLplusplus/AFLplusplus.git
+git clone https://github.com/AFLplusplus/AFLplusplus.git
 cd $aflplusplus_source_root && git checkout dev && make distrib && make install
 
 # Install Radamsa to Support -R flag in afl-fuzz
