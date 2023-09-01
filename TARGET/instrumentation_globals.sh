@@ -163,10 +163,8 @@ honggfuzz_so="${custom_mutators_root}/honggfuzz/honggfuzz-mutator.so"
 libafl_base_so="${custom_mutators_root}/libafl_base/libafl_base.so"
 libfuzzer_so="${custom_mutators_root}/libfuzzer/libfuzzer-mutator.so"
 radamsa_so="${custom_mutators_root}/radamsa/radamsa-mutator.so"
-symcc_so="${custom_mutators_root}/symcc/symcc-mutator.so"
 symqemu_so="${custom_mutators_root}/symqemu/symqemu-mutator.so"
-# export AFL_CUSTOM_MUTATOR_LIBRARY="${aflpp_so};${atnwalk_so};${autotokens_so};${gramatron_so};${honggfuzz_so};${libafl_base_so};${libfuzzer_so};${radamsa_so};${symcc_so};${symqemu_so}"
-export AFL_CUSTOM_MUTATOR_LIBRARY="${atnwalk_so};${autotokens_so};${gramatron_so};${honggfuzz_so};${libafl_base_so};${libfuzzer_so};${radamsa_so};${symcc_so};${symqemu_so}"
+export AFL_CUSTOM_MUTATOR_LIBRARY="${atnwalk_so};${autotokens_so};${gramatron_so};${honggfuzz_so};${libafl_base_so};${libfuzzer_so};${radamsa_so};${symqemu_so}"
 
 # CUSTOM MUTATOR-SPECIFIC ENVS
 export GRAMATRON_AUTOMATION="${aflplusplus_source_root}/custom_mutators/gramatron/grammars/php/source_automata.json"
