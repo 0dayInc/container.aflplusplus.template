@@ -6,7 +6,7 @@ source $instrumentation_globals
 target_repo="${container_afl_template_path}/TARGET_SRC/${target_source_name}"
 
 # Provide an opportunity to troubleshoot the container
-bash --login -c "
+cd / && bash --login -c "
   printf '\n\n\n';
   echo '#--------------------------------------------------------#';
   echo '| Welcome to the AFL++ Container...                      |';
