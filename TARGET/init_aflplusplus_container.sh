@@ -64,7 +64,6 @@ cd $honggfuzz_mutator && make
 cd $libafl_base_mutator && make
 cd $libfuzzer_mutator && make
 cd $radamsa_mutator && make
-cd $symqemu_mutator && make
 
 # Configure logrotate to rotate logs every hour
 logrotate_script='/usr/local/sbin/logrotate.sh'
