@@ -222,33 +222,32 @@ case $afl_mode in
       docker run \
         --privileged \
         --rm \
-        --name "${docker_name}" \
+        --name $docker_name \
         --mount type=bind,source=$this_repo_root,target=$container_afl_template_path \
         --mount type=bind,source=$fuzz_session_root,target=$fuzz_session_root \
         --interactive \
         --tty aflplusplus/aflplusplus:dev \
         /bin/bash --login \
           -c "
-            source ${instrumentation_globals} &&
-            ${init_instrument_fuzz} &&
-            printf 'AFL++ Container Shutting Down in 30 Seconds' &&
+            source ${instrumentation_globals};
+            ${init_instrument_fuzz};
+            printf 'AFL++ Container Shutting Down in 30 Seconds';
             for i in {1..30}; do printf '.'; sleep 1; done
           "
-      
-    
+
     sudo sysctl -w kernel.unprivileged_userns_clone=0
     ;;
 
   'secondary')
     # Run Secondary
-    afl_main_name=`docker ps | grep aflplusplus | awk '{print $NF}'`
+    afl_main_name=`docker ps | grep $docker_name | awk '{print $NF}'`
     tmux new -s "afl_S_$this_session_rand" \
       "docker exec \
         --interactive \
         --tty $afl_main_name \
         /bin/bash --login \
         -c \"
-          source ${instrumentation_globals} &&
+          source ${instrumentation_globals};
           ${fuzz_session_init}
         \"
       "
