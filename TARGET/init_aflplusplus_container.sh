@@ -48,15 +48,17 @@ cd $radamsa_root && make && make install
 # Make Custom Mutators
 aflpp_mutator=$(dirname $aflpp_so)
 atnwalk_mutator=$(dirname $atnwalk_so)
+autotokens_mutator=$(dirname $autotokens_so)
 gramatron_mutator=$(dirname $gramatron_so)
 honggfuzz_mutator=$(dirname $honggfuzz_so)
 libafl_base_mutator=$(dirname $libafl_base_so)
 libfuzzer_mutator=$(dirname $libfuzzer_so)
+radamsa_mutator=$(dirname $radamsa_so)
 symcc_mutator=$(dirname $symcc_so)
 symqemu_mutator=$(dirname $symqemu_so)
-radamsa_mutator=$(dirname $radamsa_so)
 cd $aflpp_mutator && make
 cd $atnwalk_mutator && make
+cd $autotokens_mutator && make
 cd $gramatron_mutator && ./build_gramatron_mutator.sh
 cd $honggfuzz_mutator && make
 cd $libafl_base_mutator && make
