@@ -6,15 +6,16 @@ source $instrumentation_globals
 target_repo="${container_afl_template_path}/TARGET_SRC/${target_source_name}"
 
 # Provide an opportunity to troubleshoot the container
-cd / && bash --login -c "
-  printf '\n\n\n';
-  echo '#--------------------------------------------------------#';
-  echo '| Welcome to the AFL++ Container...                      |';
-  echo '| Feel Free to Browse the Filesystem, Troubleshoot, etc. |';
-  echo '| Press CTRL+D to Begin Building the Instrumented Target |';
-  echo '#--------------------------------------------------------#';
-  /bin/bash --login
-"
+cd / 
+# bash --login -c "
+#   printf '\n\n\n';
+#   echo '#--------------------------------------------------------#';
+#   echo '| Welcome to the AFL++ Container...                      |';
+#   echo '| Feel Free to Browse the Filesystem, Troubleshoot, etc. |';
+#   echo '| Press CTRL+D to Begin Building the Instrumented Target |';
+#   echo '#--------------------------------------------------------#';
+#   /bin/bash --login
+# "
 
 # THIS IS AN EXAMPLE OF HOW TO BUILD A TARGET FOLLOWING INSTRUMENTATION
 # Variables not declared in this script are declared in instrumentation_globals

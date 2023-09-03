@@ -68,7 +68,17 @@ export AFL_SHUFFLE_QUEUE=1
 # binary without disrupting the afl-fuzz process
 # itself. This is useful, among other things, for
 # bootstrapping libdislocator.so
-export AFL_PRELOAD=1
+export AFL_PRELOAD='/usr/local/lib/afl/libcompcov.so'
+
+# Produce a CmpLog binary.  CmpLog instrumentation
+# enables logging of comparison operands in a shared
+# memory. These values can be used by various mutators
+# built on top of it.
+export AFL_LLVM_CMPLOG=1
+
+# Enables the CompareCoverage tracing of all cmp and
+# sub in x86 and x86_64 and memory comparison functions
+export AFL_COMPCOV_LEVEL=2
 
 # Causes afl-fuzz to terminate when all existing
 # paths have been fuzzed and there were no new finds
@@ -127,7 +137,7 @@ export AFL_LLVM_LAF_ALL=1
 
 # Activates the address sanitizer (memory corruption detection)
 export AFL_USE_ASAN=1
-export ASAN_OPTIONS=verbosity=3,detect_leaks=0,abort_on_error=1,symbolize=0,check_initialization_order=true,detect_stack_use_after_return=true,strict_string_checks=true,detect_invalid_pointer_pairs=2,malloc_context_size=0,allocator_may_return_null=1
+# export ASAN_OPTIONS=verbosity=3,detect_leaks=0,abort_on_error=1,symbolize=0,check_initialization_order=true,detect_stack_use_after_return=true,strict_string_checks=true,detect_invalid_pointer_pairs=2,malloc_context_size=0,allocator_may_return_null=1
 
 # Activates the Control Flow Integrity sanitizer
 # (e.g. type confusion vulnerabilities)
@@ -151,24 +161,38 @@ export AFL_USE_CFISAN=1
 # export AFL_USE_TSAN=1
 
 # Use Unexpected Behavior Sanitizer
-export AFL_USE_UBSAN=1
+# export AFL_USE_UBSAN=1
 
 # Use Custom Mutators :)
 custom_mutators_root="${aflplusplus_source_root}/custom_mutators"
-# aflpp_so="${custom_mutators_root}/aflpp/aflpp-mutator.so"
+aflpp_so="${custom_mutators_root}/aflpp/aflpp-mutator.so"
+aflpp_tritondse_so="${custom_mutators_root}/aflpp/aflpp-tritondse-mutator.so"
 atnwalk_so="${custom_mutators_root}/atnwalk/atnwalk.so"
 autotokens_so="${custom_mutators_root}/autotokens/autotokens.so"
 gramatron_so="${custom_mutators_root}/gramatron/gramatron.so"
+grammar_mutator_so="${custom_mutators_root}/grammar_mutator/grammar-mutator.so"
 honggfuzz_so="${custom_mutators_root}/honggfuzz/honggfuzz-mutator.so"
 libafl_base_so="${custom_mutators_root}/libafl_base/libafl_base.so"
 libfuzzer_so="${custom_mutators_root}/libfuzzer/libfuzzer-mutator.so"
 radamsa_so="${custom_mutators_root}/radamsa/radamsa-mutator.so"
-export AFL_CUSTOM_MUTATOR_LIBRARY="${atnwalk_so};${autotokens_so};${gramatron_so};${honggfuzz_so};${libafl_base_so};${libfuzzer_so};${radamsa_so}"
+symcc_so="${custom_mutators_root}/symcc/symcc-mutator.so"
+symqemu_so="${custom_mutators_root}/symqemu/symqemu-mutator.so"
+
+# These entries can be used together.  
+export AFL_CUSTOM_MUTATOR_LIBRARY="${gramatron_so};${honggfuzz_so};${libfuzzer_so};${radamsa_so}"
 
 # CUSTOM MUTATOR-SPECIFIC ENVS
 export GRAMATRON_AUTOMATION="${aflplusplus_source_root}/custom_mutators/gramatron/grammars/php/source_automata.json"
 
+# Custom mutators not mentioned above in the AFL_CUSTOM_MUTATOR_LIBRARY
+# are used independently.  For example, to use the libafl_base mutator:
+# export AFL_CUSTOM_MUTATOR_ONLY=1
+# export AFL_CUSTOM_MUTATOR_LIBRARY="${libafl_base_so}"
+
 # DEBUG
 export AFL_DEBUG=1
 export AFL_DEBUG_CHILD=0
+
+# IN CASE THERE'S CTORS AND REQUIRES A HUGE COVERAGE MAP
+export AFL_MAP_SIZE=10000000
 # --------------------------------------------------------------------------#
