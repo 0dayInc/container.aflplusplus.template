@@ -151,19 +151,19 @@ export AFL_USE_CFISAN=1
 # export AFL_USE_TSAN=1
 
 # Use Unexpected Behavior Sanitizer
-export AFL_USE_UBSAN=1
+# export AFL_USE_UBSAN=1
 
 # Use Custom Mutators :)
 custom_mutators_root="${aflplusplus_source_root}/custom_mutators"
 # aflpp_so="${custom_mutators_root}/aflpp/aflpp-mutator.so"
-atnwalk_so="${custom_mutators_root}/atnwalk/atnwalk.so"
-autotokens_so="${custom_mutators_root}/autotokens/autotokens.so"
+# atnwalk_so="${custom_mutators_root}/atnwalk/atnwalk.so"
+# autotokens_so="${custom_mutators_root}/autotokens/autotokens.so"
 gramatron_so="${custom_mutators_root}/gramatron/gramatron.so"
 honggfuzz_so="${custom_mutators_root}/honggfuzz/honggfuzz-mutator.so"
-libafl_base_so="${custom_mutators_root}/libafl_base/libafl_base.so"
+# libafl_base_so="${custom_mutators_root}/libafl_base/libafl_base.so"
 libfuzzer_so="${custom_mutators_root}/libfuzzer/libfuzzer-mutator.so"
 radamsa_so="${custom_mutators_root}/radamsa/radamsa-mutator.so"
-export AFL_CUSTOM_MUTATOR_LIBRARY="${atnwalk_so};${autotokens_so};${gramatron_so};${honggfuzz_so};${libafl_base_so};${libfuzzer_so};${radamsa_so}"
+export AFL_CUSTOM_MUTATOR_LIBRARY="${gramatron_so};${honggfuzz_so};${libfuzzer_so};${radamsa_so}"
 
 # CUSTOM MUTATOR-SPECIFIC ENVS
 export GRAMATRON_AUTOMATION="${aflplusplus_source_root}/custom_mutators/gramatron/grammars/php/source_automata.json"
@@ -171,4 +171,7 @@ export GRAMATRON_AUTOMATION="${aflplusplus_source_root}/custom_mutators/gramatro
 # DEBUG
 export AFL_DEBUG=1
 export AFL_DEBUG_CHILD=0
+
+# IN CASE THERE'S CTORS AND REQUIRES A HUGE COVERAGE MAP
+export AFL_MAP_SIZE=10000000
 # --------------------------------------------------------------------------#

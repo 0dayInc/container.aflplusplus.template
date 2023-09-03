@@ -218,9 +218,9 @@ case $afl_mode in
     # BIND MOUNTS TO THE DOCKER CONTAINER
     docker_name="aflplusplus.${this_session_rand}"
     # tmux new -s "afl_M_$this_session_rand" \
+        # --rm \
       docker run \
         --privileged \
-        --rm \
         --name $docker_name \
         --mount type=bind,source=$this_repo_root,target=$container_afl_template_path \
         --mount type=bind,source=$fuzz_session_root,target=$fuzz_session_root \
