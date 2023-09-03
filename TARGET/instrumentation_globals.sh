@@ -68,7 +68,7 @@ export AFL_SHUFFLE_QUEUE=1
 # binary without disrupting the afl-fuzz process
 # itself. This is useful, among other things, for
 # bootstrapping libdislocator.so
-export AFL_PRELOAD='/usr/local/lib/afl/libcompcov.so'
+export AFL_PRELOAD="${aflplusplus_source_root}/libcompcov.so"
 
 # Produce a CmpLog binary.  CmpLog instrumentation
 # enables logging of comparison operands in a shared
