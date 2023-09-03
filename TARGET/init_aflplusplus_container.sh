@@ -51,19 +51,24 @@ aflpp_mutator=$(dirname $aflpp_so)
 atnwalk_mutator=$(dirname $atnwalk_so)
 autotokens_mutator=$(dirname $autotokens_so)
 gramatron_mutator=$(dirname $gramatron_so)
+grammar_mutator=$(dirname $grammar_so)
 honggfuzz_mutator=$(dirname $honggfuzz_so)
 libafl_base_mutator=$(dirname $libafl_base_so)
 libfuzzer_mutator=$(dirname $libfuzzer_so)
 radamsa_mutator=$(dirname $radamsa_so)
+symcc_mutator=$(dirname $symcc_so)
 symqemu_mutator=$(dirname $symqemu_so)
 cd $aflpp_mutator && make
 cd $atnwalk_mutator && make
 cd $autotokens_mutator && make
 cd $gramatron_mutator && ./build_gramatron_mutator.sh
+cd $grammar_mutator && ./build_grammar_mutator.sh
 cd $honggfuzz_mutator && make
 cd $libafl_base_mutator && make
 cd $libfuzzer_mutator && make
 cd $radamsa_mutator && make
+cd $symcc_mutator && make
+cd $symqemu_mutator && make
 
 # Configure logrotate to rotate logs every hour
 logrotate_script='/usr/local/sbin/logrotate.sh'
