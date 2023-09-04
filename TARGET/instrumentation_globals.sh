@@ -89,7 +89,7 @@ export AFL_EXIT_WHEN_DONE=0
 
 # Enable the April 1st stats menu, set to -1 to
 # disable although it is 1st of April.
-export AFL_PIZZA_MODE=1
+# export AFL_PIZZA_MODE=1
 
 # Helper application for afl-fuzz. It is a wrapper
 # around GNU 'as', executed by the toolchain whenever
@@ -136,12 +136,12 @@ export AFL_LLVM_LAF_ALL=1
 #export AFL_HARDEN=1
 
 # Activates the address sanitizer (memory corruption detection)
-export AFL_USE_ASAN=1
+# export AFL_USE_ASAN=1
 # export ASAN_OPTIONS=verbosity=3,detect_leaks=0,abort_on_error=1,symbolize=0,check_initialization_order=true,detect_stack_use_after_return=true,strict_string_checks=true,detect_invalid_pointer_pairs=2,malloc_context_size=0,allocator_may_return_null=1
 
 # Activates the Control Flow Integrity sanitizer
 # (e.g. type confusion vulnerabilities)
-export AFL_USE_CFISAN=1
+# export AFL_USE_CFISAN=1
 
 # Activates the leak sanitizer. To perform a leak check
 # within your program at a certain point (such as at the
@@ -179,10 +179,11 @@ symcc_so="${custom_mutators_root}/symcc/symcc-mutator.so"
 symqemu_so="${custom_mutators_root}/symqemu/symqemu-mutator.so"
 
 # These entries can be used together.  
-export AFL_CUSTOM_MUTATOR_LIBRARY="${gramatron_so};${honggfuzz_so};${libfuzzer_so};${radamsa_so}"
+# export AFL_CUSTOM_MUTATOR_LIBRARY="${gramatron_so};${honggfuzz_so};${libfuzzer_so};${radamsa_so}"
+export AFL_CUSTOM_MUTATOR_LIBRARY="${honggfuzz_so};${libfuzzer_so};${radamsa_so}"
 
 # CUSTOM MUTATOR-SPECIFIC ENVS
-export GRAMATRON_AUTOMATION="${aflplusplus_source_root}/custom_mutators/gramatron/grammars/php/source_automata.json"
+# export GRAMATRON_AUTOMATION="${aflplusplus_source_root}/custom_mutators/gramatron/grammars/php/source_automata.json"
 
 # Custom mutators not mentioned above in the AFL_CUSTOM_MUTATOR_LIBRARY
 # are used independently.  For example, to use the libafl_base mutator:
@@ -194,5 +195,5 @@ export AFL_DEBUG=1
 export AFL_DEBUG_CHILD=0
 
 # IN CASE THERE'S CTORS AND REQUIRES A HUGE COVERAGE MAP
-export AFL_MAP_SIZE=10000000
+# export AFL_MAP_SIZE=10000000
 # --------------------------------------------------------------------------#
