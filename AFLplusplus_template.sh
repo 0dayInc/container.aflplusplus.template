@@ -239,17 +239,16 @@ case $afl_mode in
 
   'secondary')
     # Run Secondary
-    afl_main_name=`docker ps | grep $docker_name | awk '{print $NF}'`
-    tmux new -s "afl_S_$this_session_rand" \
-      "docker exec \
+    afl_main_name=`docker ps | grep aflplusplus | awk '{print $NF}'`
+    # tmux new -s "afl_S_$this_session_rand" \
+      docker exec \
         --interactive \
         --tty $afl_main_name \
         /bin/bash --login \
-        -c \"
+        -c "
           source ${instrumentation_globals};
           ${fuzz_session_init}
-        \"
-      "
+        "
       ;;
 
   *) usage;;
