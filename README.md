@@ -4,8 +4,7 @@ This project aims to guide security researchers along the journey of squeezing o
 
 #### **Why** ####
 To paraphrase a wise meme on the Internet...<br/>
-
-"One does not simply install AFL++ and fuzz for 0days."
+![PWN](https://raw.githubusercontent.com/0dayInc/container.aflplusplus.template/master/documentation/one_does_not_simply_install_afl++.jpeg)
 
 #### **How** ####
 The environment project aims to:
