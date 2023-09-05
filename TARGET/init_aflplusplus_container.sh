@@ -17,6 +17,8 @@ apt install -y \
   coreutils \
   git \
   libblocksruntime-dev \
+  libini-config-dev \
+  libseccomp-dev \
   libssl-dev \
   libunwind-dev \
   logrotate \
@@ -29,6 +31,33 @@ apt install -y \
   strace \
   subversion \
   tcpdump
+
+# Build Preeny to get Useful AFL_PRELOAD .so files
+# See TARGET/instrumentation_globals.sh for more info
+# dealarm	Disables alarm()
+# defork	Disables fork()
+# deptrace	Disables ptrace()
+# derand	Disables rand() and random()
+# desigact	Disables sigaction()
+# desock	Channels socket communication to the console
+# desock_dup	Channels socket communication to the console (simpler method)
+# ensock	The opposite of desock -- like an LD_PRELOAD version of socat!
+# desrand	Does tricky things with srand() to control randomness.
+# detime	Makes time() always return the same value.
+# desleep	Makes sleep() and usleep() do nothing.
+# mallocwatch	When ltrace is inconvenient, mallocwatch provides info on heap operations.
+# writeout	Some binaries write() to fd 0, expecting it to be a two-way socket. This makes that work (by redirecting to fd 1).
+# patch	Patches programs at load time.
+# startstop	Sends SIGSTOP to itself on startup, to suspend the process.
+# crazyrealloc	ensures that whatever is being reallocated is always moved to a new location in memory, thus free()ing the old.
+# deuid	Change the UID and effective UID of a process
+# eofkiller	Exit on EOF on several read functions
+# getcanary	Dumps the canary on program startup (x86 and amd64 only at the moment).
+# setcanary	Overwrites the canary with a user-provided one on program startup (amd64-only at the moment).
+# setstdin	Sets user defined STDIN data instead of real one, overriding read, fread, fgetc, getc and getchar calls. Read here for more info
+# nowrite	Forces open() to open files in readonly mode. Downgrading from readwrite or writeonly mode, and taking care of append, mktemp and other write-related flags as well
+cd /opt && git clone https://github.com/zardus/preeny.git
+cd $preeny_root && make
 
 # Build ALL of AFL++ in the Container
 # Per https://github.com/AFLplusplus/AFLplusplus/blob/stable/docs/INSTALL.md

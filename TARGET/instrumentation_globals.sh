@@ -13,6 +13,7 @@ export USE_ZEND_ALLOC=0
 # --------------------------------------------------------------------------#
 fuzz_session_root='/fuzz_session'
 target_prefix="${fuzz_session_root}/TARGET"
+preeny_root='/opt/preeny'
 aflplusplus_source_root='/AFLplusplus'
 container_afl_template_path='/opt/container.aflplusplus.template'
 # --------------------------------------------------------------------------#
@@ -68,7 +69,41 @@ export AFL_SHUFFLE_QUEUE=1
 # binary without disrupting the afl-fuzz process
 # itself. This is useful, among other things, for
 # bootstrapping libdislocator.so
-export AFL_PRELOAD="${aflplusplus_source_root}/libcompcov.so"
+# PREENY OPTIONSi FOR AFL_PRELOAD:
+# crazyrealloc	ensures that whatever is being reallocated is always moved to a new location in memory, thus free()ing the old.
+# dealarm	Disables alarm()
+# defork	Disables fork()
+# deptrace	Disables ptrace()
+# derand	Disables rand() and random()
+# desigact	Disables sigaction()
+# desock	Channels socket communication to the console
+# desock_dup	Channels socket communication to the console (simpler method)
+# desrand	Does tricky things with srand() to control randomness.
+# detime	Makes time() always return the same value.
+# desleep	Makes sleep() and usleep() do nothing.
+# deuid	Change the UID and effective UID of a process
+# ensock	The opposite of desock -- like an LD_PRELOAD version of socat!
+# eofkiller	Exit on EOF on several read functions
+# getcanary	Dumps the canary on program startup (x86 and amd64 only at the moment).
+# mallocwatch	When ltrace is inconvenient, mallocwatch provides info on heap operations.
+# nowrite	Forces open() to open files in readonly mode. Downgrading from readwrite or writeonly mode, and taking care of append, mktemp and other write-related flags as well
+# patch	Patches programs at load time.
+# setcanary	Overwrites the canary with a user-provided one on program startup (amd64-only at the moment).
+# setstdin	Sets user defined STDIN data instead of real one, overriding read, fread, fgetc, getc and getchar calls. Read here for more info
+# startstop	Sends SIGSTOP to itself on startup, to suspend the process.
+# writeout	Some binaries write() to fd 0, expecting it to be a two-way socket. This makes that work (by redirecting to fd 1).
+export AFL_PRELOAD="${aflplusplus_source_root}/libdislocator.so:${aflplusplus_source_root}/libcompcov.so:${preeny_root}/src/dealarm.so:${preeny_root}/src/defork.so:${preeny_root}/deptrace.so:${preeny_root}/derand.so:${preeny_root}/desigact.so:${preeny_root}/desleep.so:${preeny_root}/desock.so:${preeny_root}:dsrand.so"
+
+# PREENY derand.so SPECIFIC SETTINGS:
+export RAND=1337
+
+# PREENY desrand.so SPECIFIC SETTINGS:
+# # this sets the seed to 1337
+export SEED=1337
+# this sets the seed to such that the first "rand() % 128" will be 10
+# export WANT=10 MOD=128
+# finally, this makes the *third* "rand() % 128" be 10
+# export SKIP=2 WANT=10 MOD=128
 
 # Produce a CmpLog binary.  CmpLog instrumentation
 # enables logging of comparison operands in a shared
@@ -136,8 +171,10 @@ export AFL_LLVM_LAF_ALL=1
 #export AFL_HARDEN=1
 
 # Activates the address sanitizer (memory corruption detection)
-# export AFL_USE_ASAN=1
-# export ASAN_OPTIONS=verbosity=3,detect_leaks=0,abort_on_error=1,symbolize=0,check_initialization_order=true,detect_stack_use_after_return=true,strict_string_checks=true,detect_invalid_pointer_pairs=2,malloc_context_size=0,allocator_may_return_null=1
+export AFL_USE_ASAN=1
+# To get the idea of what ASAN_OPTIONS are available, run:
+# export ASAN_OPTIONS=help=1 
+export ASAN_OPTIONS=verbosity=3,detect_leaks=0,abort_on_error=0,symbolize=0,check_initialization_order=true,detect_stack_use_after_return=true,strict_string_checks=true,detect_invalid_pointer_pairs=2,malloc_context_size=0,allocator_may_return_null=1
 
 # Activates the Control Flow Integrity sanitizer
 # (e.g. type confusion vulnerabilities)
