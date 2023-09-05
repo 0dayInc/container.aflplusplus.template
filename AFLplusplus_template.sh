@@ -240,8 +240,7 @@ case $afl_mode in
       --tty aflplusplus/aflplusplus:dev \
       /bin/bash --login \
         -c "
-          source ${instrumentation_globals};
-          ${init_instrument_fuzz};
+          ${init_instrument_fuzz}
           printf 'AFL++ Container Shutting Down in 30 Seconds';
           for i in {1..30}; do printf '.'; sleep 1; done
         "
@@ -258,7 +257,6 @@ case $afl_mode in
       --tty $afl_main_name \
       /bin/bash --login \
       -c "
-        source ${instrumentation_globals};
         ${fuzz_session_init}
       "
     ;;
