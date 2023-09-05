@@ -16,6 +16,10 @@ usage() {
                            # Name of the source code folder
                            # residing in ./TARGET_SRC to build
 
+    -P                     # OPTIONAL / main MODE ONLY
+                           # Preload target specific, colon delimited
+                           # list of .so files to append to AFL_PRELOAD
+
     -c                     # OPTIONAL / main MODE ONLY
                            # Nuke contents of TARGET prefix
                            # (i.e. /fuzz_session/TARGET)
@@ -43,17 +47,19 @@ usage() {
 no_args='true'
 afl_mode=''
 target_source_name=''
+append_to_afl_preload=''
 nuke_target_prefix='false'
 nuke_multi_sync='false'
 nuke_test_cases='false'
 debug='false'
 
-while getopts "hT:m:r:cntLD" flag; do
+while getopts "hT:m:r:P:cntLD" flag; do
   case $flag in
     'h') usage;;
     'T') target_cmd="${OPTARG}";;
     'm') afl_mode="${OPTARG}";;
     'r') target_source_name="${OPTARG}";;
+    'P') append_to_afl_preload="${OPTARG}";;
     'c') nuke_target_prefix='true';;
     'n') nuke_multi_sync='true';;
     't') nuke_test_cases='true';;
@@ -184,7 +190,7 @@ case $afl_mode in
     # Build out init_instrument_fuzz variable
     echo 'Initializing AFL++ Container, Instrumenting TARGET, and Starting AFL++'
     afl_init_container="${container_afl_template_path}/TARGET/init_aflplusplus_container.sh"
-    afl_instrument_target="${container_afl_template_path}/TARGET/instrument_target.sh ${target_source_name}"
+    afl_instrument_target="${container_afl_template_path}/TARGET/instrument_target.sh ${target_source_name} ${append_to_afl_preload}"
     # Copy TARGET Test Cases to $afl_input Folder
     cp $target_test_cases/* $afl_input 2> /dev/null
 

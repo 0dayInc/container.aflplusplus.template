@@ -1,10 +1,14 @@
 # #!/bin/bash --login
 target_source_name="${1}"
+append_to_afl_preload="${2}"
 container_afl_template_path='/opt/container.aflplusplus.template'
 instrumentation_globals="${container_afl_template_path}/TARGET/instrumentation_globals.sh"
 source $instrumentation_globals
 target_repo="${container_afl_template_path}/TARGET_SRC/${target_source_name}"
 
+if [[ $append_to_afl_preload != '' ]]; then
+  export AFL_PRELOAD="${AFL_PRELOAD}:${append_to_afl_preload}"
+fi
 # Provide an opportunity to troubleshoot the container
 cd / 
 # bash --login -c "
