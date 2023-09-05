@@ -4,7 +4,7 @@ This project aims to guide security researchers along the journey of squeezing o
 
 #### **Why** ####
 To paraphrase a wise meme on the Internet...<br/>
-![WiseMeme](https://raw.githubusercontent.com/ninp0/container.aflplusplus.template/master/documentation/one_does_not_simply_install_afl%2B%2B.jpeg)
+![WiseMeme](https://raw.githubusercontent.com/0dayInc/container.aflplusplus.template/master/documentation/one_does_not_simply_install_afl%2B%2B.jpeg)
 
 #### **How** ####
 The environment project aims to:
