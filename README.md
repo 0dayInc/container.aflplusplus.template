@@ -1,18 +1,18 @@
 ### **Intro** ###
 #### **What** ####
-This project aims to guide security researchers along the journey in squeezing out as much capability of AFL++ as possible for any engagement in which a researcher is fuzzing a target.
+This project aims to guide security researchers along the journey of squeezing out as much capability of AFL++ as possible for any engagement where fuzzing is desired.
 
 #### **Why** ####
-It's one thing to install AFL++ and "start fuzzing."  It's quite another to install AFL++ and "fuzz effectively"
-
+As a wise meme on the Internet once said, "One does not simply install AFL++ and fuzz for 0days."
 
 #### **How** ####
 The environment project aims to:
+- Leverage a good balance of AFL++'s advanced capbilities, including those that further advances AFL++'s capbilities.  Examples include preeny, libfuzzer, hongfuzz, radamsa, address sanitizer, etc.
 - Avoid thashing hard drives (which is why fuzzing happens within memory for this project, i.e. the tmpfs /fuzz_session)
-- Provide guidance around instrumenting binaries leveraging the __AFL_LOOP function
+- Provide guidance around instrumenting binaries leveraging the _AFL_INIT() && __AFL_LOOP macros.
 - Has the ability to spin up a "main" fuzzer with multiple "secondaries"
 - Enabling the Creation of test cases for a given target
-- Cranking out as many mutations / second as possible
+- Crank out as many mutations / second as possible
 
 #### **Installation / Usage** ####
 ```
@@ -34,6 +34,10 @@ USAGE:
     -r <src dir name>      # REQUIRED
                            # Name of the source code folder
                            # residing in ./TARGET_SRC to build
+
+    -P                     # OPTIONAL / main MODE ONLY
+                           # Preload target specific, colon delimited
+                           # list of .so files to append to AFL_PRELOAD
 
     -c                     # OPTIONAL / main MODE ONLY
                            # Nuke contents of TARGET prefix
