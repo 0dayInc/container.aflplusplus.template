@@ -7,9 +7,14 @@ As a wise meme on the Internet once said, "One does not simply install AFL++ and
 
 #### **How** ####
 The environment project aims to:
-- Leverage a good balance of AFL++'s advanced capbilities, including those that further advances AFL++'s capbilities.  Examples include preeny, libfuzzer, hongfuzz, radamsa, address sanitizer, etc.
-- Avoid thashing hard drives (which is why fuzzing happens within memory for this project, i.e. the tmpfs /fuzz_session)
-- Provide guidance around instrumenting binaries leveraging the _AFL_INIT() && __AFL_LOOP macros.
+- Leverage a good balance of AFL++'s advanced capbilities, including those that further advances AFL++'s capbilities.  Examples include:
+    - Preeny
+    - LibFuzzer
+    - HongFuzz
+    - Radamsa
+    - Address Sanitizer
+    - And Much More...Checkout [instrumentation_globals.sh](https://github.com/0dayInc//container.aflplusplus.template/blob/master/TARGET/instrumentation_globals.sh) && [init_aflplusplus_container.sh](https://github.com/0dayInc/container.aflplusplus.template/blob/master/TARGET/init_aflplusplus_container.sh) for more details.
+- Provide guidance around instrumenting binaries leveraging AFL++ macros such as __AFL_INIT() && __AFL_LOOP();
 - Has the ability to spin up a "main" fuzzer with multiple "secondaries"
 - Enabling the Creation of test cases for a given target
 - Crank out as many mutations / second as possible
