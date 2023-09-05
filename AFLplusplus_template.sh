@@ -139,18 +139,25 @@ fi
 # TODO: Figure out what values were before so 
 # they can be reversed when fuzz session is complete
 fuzz_session_init="
-  echo core > /proc/sys/kernel/core_pattern &&
-  echo never > /sys/kernel/mm/transparent_hugepage/enabled &&
-  echo 1 >/proc/sys/kernel/sched_child_runs_first &&
-  echo 1 >/proc/sys/kernel/sched_autogroup_enabled &&
-  source ${instrumentation_globals} &&
+  echo core > /proc/sys/kernel/core_pattern && \
+  echo never > /sys/kernel/mm/transparent_hugepage/enabled && \
+  echo 1 >/proc/sys/kernel/sched_child_runs_first && \
+  echo 1 >/proc/sys/kernel/sched_autogroup_enabled && \
+  source ${instrumentation_globals} && \
 "
 
 if [[ $debug == 'true' ]]; then
   fuzz_session_init="
-    ${fuzz_session_init} &&
-    export AFL_DEBUG=1 &&
-    export AFL_DEBUG_CHILD=1 &&
+    ${fuzz_session_init}
+    export AFL_DEBUG=1 && \
+    export AFL_DEBUG_CHILD=1 && \
+  "
+fi
+
+if [[ $append_to_afl_preload != '' ]]; then
+  fuzz_session_init="
+    ${fuzz_session_init}
+    export AFL_PRELOAD='\${AFL_PRELOAD}:${append_to_afl_preload}' && \
   "
 fi
 
@@ -198,7 +205,7 @@ case $afl_mode in
 
     if [[ $debug == 'true' ]]; then
       echo 'Preparing to exec:'
-      echo -e "${init_instrument_fuzz}\n\n\n"
+      printf "%s\n\n\n" $init_instrument_fuzz
       while true; do
         printf 'Proceed with Execution? <y||n>'; read answer
         case $answer in
@@ -223,22 +230,21 @@ case $afl_mode in
     # NOTE: DEPENDING ON YOUR NEEDS, YOU MAY NEED TO ASSIGN MORE
     # BIND MOUNTS TO THE DOCKER CONTAINER
     docker_name="aflplusplus.${this_session_rand}"
-    # tmux new -s "afl_M_$this_session_rand" \
-      docker run \
-        --privileged \
-        --rm \
-        --name $docker_name \
-        --mount type=bind,source=$this_repo_root,target=$container_afl_template_path \
-        --mount type=bind,source=$fuzz_session_root,target=$fuzz_session_root \
-        --interactive \
-        --tty aflplusplus/aflplusplus:dev \
-        /bin/bash --login \
-          -c "
-            source ${instrumentation_globals};
-            ${init_instrument_fuzz};
-            printf 'AFL++ Container Shutting Down in 30 Seconds';
-            for i in {1..30}; do printf '.'; sleep 1; done
-          "
+    docker run \
+      --privileged \
+      --rm \
+      --name $docker_name \
+      --mount type=bind,source=$this_repo_root,target=$container_afl_template_path \
+      --mount type=bind,source=$fuzz_session_root,target=$fuzz_session_root \
+      --interactive \
+      --tty aflplusplus/aflplusplus:dev \
+      /bin/bash --login \
+        -c "
+          source ${instrumentation_globals};
+          ${init_instrument_fuzz};
+          printf 'AFL++ Container Shutting Down in 30 Seconds';
+          for i in {1..30}; do printf '.'; sleep 1; done
+        "
 
     printf "\n"
     sudo sysctl -w kernel.unprivileged_userns_clone=0
@@ -247,16 +253,15 @@ case $afl_mode in
   'secondary')
     # Run Secondary
     afl_main_name=`docker ps | grep aflplusplus | awk '{print $NF}'`
-    # tmux new -s "afl_S_$this_session_rand" \
-      docker exec \
-        --interactive \
-        --tty $afl_main_name \
-        /bin/bash --login \
-        -c "
-          source ${instrumentation_globals};
-          ${fuzz_session_init}
-        "
-      ;;
+    docker exec \
+      --interactive \
+      --tty $afl_main_name \
+      /bin/bash --login \
+      -c "
+        source ${instrumentation_globals};
+        ${fuzz_session_init}
+      "
+    ;;
 
   *) usage;;
 esac
