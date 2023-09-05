@@ -3,7 +3,9 @@
 This project aims to guide security researchers along the journey of squeezing out as much capability of AFL++ as possible for any engagement where fuzzing is desired.
 
 #### **Why** ####
-As a wise meme on the Internet once said, "One does not simply install AFL++ and fuzz for 0days."
+To paraphrase a wise meme on the Internet...<br/>
+
+"One does not simply install AFL++ and fuzz for 0days."
 
 #### **How** ####
 The environment project aims to:
@@ -18,6 +20,7 @@ The environment project aims to:
 - Has the ability to spin up a "main" fuzzer with multiple "secondaries"
 - Enabling the Creation of test cases for a given target
 - Crank out as many mutations / second as possible
+- Aid resercher in finding .so files loaded via dlopen (to be passed into AFL_PRELOAD)
 
 #### **Installation / Usage** ####
 ```
