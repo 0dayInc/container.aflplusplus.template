@@ -16,6 +16,8 @@ target_prefix="${fuzz_session_root}/TARGET"
 preeny_root='/opt/preeny'
 aflplusplus_source_root='/AFLplusplus'
 container_afl_template_path='/opt/container.aflplusplus.template'
+cflags='-ggdb'
+cxxflags='-ggdb'
 # --------------------------------------------------------------------------#
 
 # --------------------------------------------------------------------------#
@@ -92,7 +94,7 @@ export AFL_SHUFFLE_QUEUE=1
 # setstdin	Sets user defined STDIN data instead of real one, overriding read, fread, fgetc, getc and getchar calls. Read here for more info
 # startstop	Sends SIGSTOP to itself on startup, to suspend the process.
 # writeout	Some binaries write() to fd 0, expecting it to be a two-way socket. This makes that work (by redirecting to fd 1).
-export AFL_PRELOAD="${aflplusplus_source_root}/libdislocator.so:${aflplusplus_source_root}/libcompcov.so:${preeny_root}/src/dealarm.so:${preeny_root}/src/defork.so:${preeny_root}/deptrace.so:${preeny_root}/derand.so:${preeny_root}/desigact.so:${preeny_root}/desleep.so:${preeny_root}/desock.so:${preeny_root}:dsrand.so"
+export AFL_PRELOAD="${aflplusplus_source_root}/libdislocator.so:${aflplusplus_source_root}/libcompcov.so:${preeny_root}/src/dealarm.so:${preeny_root}/src/defork.so:${preeny_root}/src/deptrace.so:${preeny_root}/src/derand.so:${preeny_root}/src/desigact.so:${preeny_root}/src/desleep.so:${preeny_root}/src/desock.so:${preeny_root}/src/desrand.so"
 
 # PREENY derand.so SPECIFIC SETTINGS:
 export RAND=1337
@@ -121,6 +123,11 @@ export AFL_COMPCOV_LEVEL=2
 # the cycle counter in the UI turning green. May be
 # convenient for some types of automated jobs.
 export AFL_EXIT_WHEN_DONE=0
+
+# Causes afl-fuzz to terminate if no new paths were
+# found within a specified period of time (in seconds).
+# May be convenient for some types of automated jobs.
+# export AFL_EXIT_ON_TIME=0
 
 # Enable the April 1st stats menu, set to -1 to
 # disable although it is 1st of April.
@@ -172,13 +179,12 @@ export AFL_LLVM_LAF_ALL=1
 
 # Activates the address sanitizer (memory corruption detection)
 export AFL_USE_ASAN=1
-# To get the idea of what ASAN_OPTIONS are available, run:
-# export ASAN_OPTIONS=help=1 
-export ASAN_OPTIONS=verbosity=3,detect_leaks=0,abort_on_error=0,symbolize=0,check_initialization_order=true,detect_stack_use_after_return=true,strict_string_checks=true,detect_invalid_pointer_pairs=2,malloc_context_size=0,allocator_may_return_null=1
+export ASAN_OPTIONS=help=1,verbosity=3,detect_leaks=1,abort_on_error=1,symbolize=0,check_initialization_order=true,detect_stack_use_after_return=true,strict_string_checks=true,detect_invalid_pointer_pairs=2,malloc_context_size=0,allocator_may_return_null=1
 
 # Activates the Control Flow Integrity sanitizer
 # (e.g. type confusion vulnerabilities)
 # export AFL_USE_CFISAN=1
+# export CFISAN_OPTIONS=help=1
 
 # Activates the leak sanitizer. To perform a leak check
 # within your program at a certain point (such as at the
@@ -188,17 +194,19 @@ export ASAN_OPTIONS=verbosity=3,detect_leaks=0,abort_on_error=0,symbolize=0,chec
 # avoid checking for memory leaks from memory allocated between these
 # two calls.
 # export AFL_USE_LSAN=1
-# export LSAN_OPTIONS=exit_deo=23,fast_unwind_on_malloc=0,symbolize=0,print_suppressions=0,detect_leaks=1,use_stacks=0,use_registers=0,use_globals=0,use_tls=0,verbosity=1
+# export LSAN_OPTIONS=help=1,exit_deo=23,fast_unwind_on_malloc=0,symbolize=0,print_suppressions=0,detect_leaks=1,use_stacks=0,use_registers=0,use_globals=0,use_tls=0,verbosity=1
 
 # Use Memory Sanitizer
 # export AFL_USE_MSAN=1
-# export MSAN_OPTIONS=exit_code=86,abort_on_error=1,symbolize=0,msan_track_origins=0,allocator_may_return_null=1
+# export MSAN_OPTIONS=help=1,exit_code=86,abort_on_error=1,symbolize=0,msan_track_origins=0,allocator_may_return_null=1
 
 # Activates the thread sanitizer to find thread race conditions
 # export AFL_USE_TSAN=1
+# export TSAN_OPTIONS=help=1
 
 # Use Unexpected Behavior Sanitizer
 # export AFL_USE_UBSAN=1
+# export UBSAN_OPTIONS=help=1
 
 # Use Custom Mutators :)
 custom_mutators_root="${aflplusplus_source_root}/custom_mutators"
@@ -228,7 +236,7 @@ export AFL_CUSTOM_MUTATOR_LIBRARY="${honggfuzz_so};${libfuzzer_so};${radamsa_so}
 # export AFL_CUSTOM_MUTATOR_LIBRARY="${libafl_base_so}"
 
 # DEBUG
-export AFL_DEBUG=1
+export AFL_DEBUG=0
 export AFL_DEBUG_CHILD=0
 
 # IN CASE THERE'S CTORS AND REQUIRES A HUGE COVERAGE MAP
