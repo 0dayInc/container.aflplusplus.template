@@ -7,19 +7,19 @@ To paraphrase what a wise meme on the Internet once said...<br/>
 ![WiseMeme](https://raw.githubusercontent.com/0dayInc/container.aflplusplus.template/master/documentation/one_does_not_simply_install_afl%2B%2B.jpeg)
 
 #### **How** ####
-The environment project aims to:
-- Leverage a good balance of AFL++'s advanced capbilities, including those that further advance AFL++'s capbilities.  Examples include:
+This project accomplishes this goal by:
+- Leveraging a good balance of AFL++'s advanced capbilities, including those that further advance AFL++'s advanced capbilities :) Examples include:
     - [Preeny](https://github.com/zardus/preeny)
     - [LibFuzzer](https://llvm.org/docs/LibFuzzer.html)
     - [HonggFuzz](https://github.com/google/honggfuzz)
     - [Radamsa](https://gitlab.com/akihe/radamsa)
     - [Address Sanitizer](https://github.com/google/sanitizers/wiki/AddressSanitizer)
     - And Much More...Checkout [instrumentation_globals.sh](https://github.com/0dayInc/container.aflplusplus.template/blob/master/TARGET/instrumentation_globals.sh) && [init_aflplusplus_container.sh](https://github.com/0dayInc/container.aflplusplus.template/blob/master/TARGET/init_aflplusplus_container.sh) for more details.
-- Provide guidance around instrumenting binaries with AFL++ functions such as `__AFL_INIT()` && `__AFL_LOOP()`
-- Has the ability to spin up a "main" fuzzer with multiple "secondaries"
-- Enable the Creation of test cases for a given target
-- Crank out as many mutations / second as possible
-- Aid researcher in discovering .so files loaded via dlopen (which can be appended to AFL_PRELOAD at runtime)
+- Providing guidance around instrumenting binaries with AFL++ functions such as `__AFL_INIT()` && `__AFL_LOOP()`
+- Supports the ability to spin up a "main" fuzzer with multiple "secondaries"
+- Enabling the Creation of test cases for a given target
+- Cranking out as many mutations / second as possible
+- Aiding researchers in discovering .so files loaded via dlopen (which can be appended to AFL_PRELOAD at runtime)
 
 #### **Installation / Usage** ####
 1. Clone the repo:
