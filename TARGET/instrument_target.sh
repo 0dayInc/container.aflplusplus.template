@@ -9,17 +9,28 @@ target_repo="${container_afl_template_path}/TARGET_SRC/${target_source_name}"
 if [[ $append_to_afl_preload != '' ]]; then
   export AFL_PRELOAD="${AFL_PRELOAD}:${append_to_afl_preload}"
 else
-  echo 'INFO: No AFL_PRELOAD variable was provided'
-  echo 'AFL_PRELOAD .so Files for Consideration:'
-  grep -R \
+  grep -Rn \
     -e 'dlopen(' \
     $target_repo \
     2> /dev/null | \
     grep -E '^.*\.so.*'
 
   if (( $? == 0 )); then
+    printf '\n\n\n';
+    echo '#--------------------------------------------------------#'
+    echo '| WARN: No TARGET-SPECIFIC .so files are referenced in   |'
+    echo '| AFL_PRELOAD but these .so files are loaded by dlopen() |'
+    echo '#--------------------------------------------------------#'
+    printf '\n\n\n';
+    grep -Rn \
+      -e 'dlopen(' \
+      $target_repo \
+      2> /dev/null | \
+      grep -E '^.*\.so.*'
+
     # Found .so files
     # Read in user's CTRL+C to quit or enter to continue
+    printf '\n\n\n';
     read -p 'Press Enter to PROCEED || any other key to EXIT...' -n 1 -r -s choice
     case $choice in 
       '') echo 'instrumenting.';;
