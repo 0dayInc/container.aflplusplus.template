@@ -29,7 +29,7 @@ $ sudo git clone https://github.com/0dayInc/container.aflplusplus.template
 $ sudo chown -R $USER:$USER container.aflplusplus.template
 ```
 
-2. Review Options:
+2. Review Usage:
 ```
 $ cd container.aflplusplus.template
 $ ./AFLplusplus_template.sh -h
