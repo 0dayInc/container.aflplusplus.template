@@ -108,6 +108,11 @@ export SEED=1337
 # finally, this makes the *third* "rand() % 128" be 10
 # export SKIP=2 WANT=10 MOD=128
 
+# Uses native trace-pc-guard instrumentation but additionally select
+# options that are required to utilize the instrumentation for source
+# code coverage.
+export AFL_LLVM_INSTRUMENT=1
+
 # Produce a CmpLog binary.  CmpLog instrumentation
 # enables logging of comparison operands in a shared
 # memory. These values can be used by various mutators

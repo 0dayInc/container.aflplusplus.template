@@ -11,16 +11,21 @@ if [[ $append_to_afl_preload != '' ]]; then
 else
   echo 'INFO: No AFL_PRELOAD variable was provided'
   echo 'AFL_PRELOAD .so Files for Consideration:'
-  grep -R 'dlopen(' $target_repo 2> /dev/null | grep -E '^.*\.so"'
-  # if (( $(echo $?) == 0 )); then
+  grep -R \
+    -e 'dlopen(' \
+    $target_repo \
+    2> /dev/null | \
+    grep -E '^.*\.so.*'
+
+  if (( $? == 0 )); then
     # Found .so files
     # Read in user's CTRL+C to quit or enter to continue
-    # read -p 'Pressing Enter to proceed || any key to exit...' -n 1 -r -s choice
-    # case $choice in 
-    #   '') echo 'INFO: Instrumenting...';;
-    #   *) echo 'INFO: Goodbye.'; exit 0;;
-    # esac
-  # fi
+    read -p 'Press Enter to PROCEED || any other key to EXIT...' -n 1 -r -s choice
+    case $choice in 
+      '') echo 'instrumenting.';;
+      *) echo 'goodbye.'; exit 0;;
+    esac
+  fi
 fi
 
 # Provide an opportunity to troubleshoot the container
@@ -41,58 +46,62 @@ fi
 
 # Target-Specific Dependencies to be installed via apt
 apt install -y \
-  autoconf \
   bison \
-  build-essential \
   libsqlite3-dev \
   libxml2-dev \
-  pkg-config \
   re2c
 
 # Clean up any previous builds
-cd $target_repo && CFLAGS=$cflags \
-                   CXXFLAGS=$cxxflags \
-                   CC=$preferred_afl \
-                   CXX=$preferred_aflplusplus \
-                   RANLIB=$preferred_afl_ranlib \
-                   AR=$preferred_afl_ar \
-                   NM=$preferred_alf_nm \
-                   make clean
+# if [[ -f $target_repo/Makefile ]]; then
+#   cd $target_repo && CFLAGS=$cflags \
+#                      CXXFLAGS=$cxxflags \
+#                      CC=$preferred_afl \
+#                      CXX=$preferred_aflplusplus \
+#                      RANLIB=$preferred_afl_ranlib \
+#                      AR=$preferred_afl_ar \
+#                      NM=$preferred_alf_nm \
+#                      make clean
+# fi
 
-# Build the target's configure script
-cd $target_repo && CFLAGS=$cflags \
-                   CXXFLAGS=$cxxflags \
-                   CC=$preferred_afl \
-                   CXX=$preferred_aflplusplus \
-                   RANLIB=$preferred_afl_ranlib \
-                   AR=$preferred_afl_ar \
-                   NM=$preferred_alf_nm \
-                   ./buildconf --force
-
-# Execute the target's configure script
-cd ${target_repo} && CFLAGS=$cflags \
+# Build the Target's configure script
+if [[ -f $target_repo/buildconf ]]; then
+  cd $target_repo && CFLAGS=$cflags \
                      CXXFLAGS=$cxxflags \
                      CC=$preferred_afl \
                      CXX=$preferred_aflplusplus \
                      RANLIB=$preferred_afl_ranlib \
                      AR=$preferred_afl_ar \
-                     NM=$preferred_afl_nm \
-                     ./configure --disable-shared
+                     NM=$preferred_alf_nm \
+                     ./buildconf --force
+fi
 
-# Build the target
-cd ${target_repo} && CFLAGS=$cflags \
-                     CXXFLAGS=$cxxflags \
-                     CC=$preferred_afl \
-                     CXX=$preferred_aflplusplus \
-                     RANLIB=$preferred_afl_ranlib \
-                     AR=$preferred_afl_ar \
-                     NM=$preferred_afl_nm \
-                     make
+# Execute the Target's configure script
+if [[ -f $target_repo/configure ]]; then
+  cd ${target_repo} && CFLAGS=$cflags \
+                       CXXFLAGS=$cxxflags \
+                       CC=$preferred_afl \
+                       CXX=$preferred_aflplusplus \
+                       RANLIB=$preferred_afl_ranlib \
+                       AR=$preferred_afl_ar \
+                       NM=$preferred_afl_nm \
+                       ./configure --disable-shared
+fi
 
-# Install the target
-cd ${target_repo} && make install
+# Clean up Previous Build, Build Again, && Install the Target
+if [[ -f $target_repo/Makefile ]]; then
+  cd ${target_repo} && CFLAGS=$cflags \
+                       CXXFLAGS=$cxxflags \
+                       CC=$preferred_afl \
+                       CXX=$preferred_aflplusplus \
+                       RANLIB=$preferred_afl_ranlib \
+                       AR=$preferred_afl_ar \
+                       NM=$preferred_afl_nm \
+                       make clean && \
+                       make && \
+                       make install
+fi
 
-printf "\nINFO: afl-fuzz will begin in 10 seconds"
+printf "\nINSTRUMENTATION COMPLETE: afl-fuzz will begin in 10 seconds"
 for i in {1..10}; do
   printf '.'
   sleep 1
