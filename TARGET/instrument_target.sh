@@ -12,15 +12,15 @@ else
   echo 'INFO: No AFL_PRELOAD variable was provided'
   echo 'AFL_PRELOAD .so Files for Consideration:'
   grep -R 'dlopen(' $target_repo 2> /dev/null | grep -E '^.*\.so"'
-  if (( $(echo $?) == 0 )); then
+  # if (( $(echo $?) == 0 )); then
     # Found .so files
     # Read in user's CTRL+C to quit or enter to continue
-    read -p 'Pressing Enter to proceed || any key to exit...' -n 1 -r -s choice
-    case $choice in 
-      '') echo 'INFO: Instrumenting...';;
-      *) echo 'INFO: Goodbye.'; exit 0;;
-    esac
-  fi
+    # read -p 'Pressing Enter to proceed || any key to exit...' -n 1 -r -s choice
+    # case $choice in 
+    #   '') echo 'INFO: Instrumenting...';;
+    #   *) echo 'INFO: Goodbye.'; exit 0;;
+    # esac
+  # fi
 fi
 
 # Provide an opportunity to troubleshoot the container
