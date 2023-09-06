@@ -16,7 +16,7 @@ usage() {
                            # Name of the source code folder
                            # residing in ./TARGET_SRC to build
 
-    -P                     # OPTIONAL / main MODE ONLY
+    -P                     # OPTIONAL
                            # Preload target specific, colon delimited
                            # list of .so files to append to AFL_PRELOAD
 
@@ -157,7 +157,7 @@ fi
 if [[ $append_to_afl_preload != '' ]]; then
   fuzz_session_init="
     ${fuzz_session_init}
-    export AFL_PRELOAD='\${AFL_PRELOAD}:${append_to_afl_preload}' && \
+    export AFL_PRELOAD=\"\${AFL_PRELOAD}:${append_to_afl_preload}\" && \
   "
 fi
 
@@ -241,9 +241,11 @@ case $afl_mode in
       /bin/bash --login \
         -c "
           ${init_instrument_fuzz}
+          printf '\n';
           printf 'AFL++ Container Shutting Down in 30 Seconds';
-          echo ${AFL_PRELOAD};
           for i in {1..30}; do printf '.'; sleep 1; done;
+          printf '\n';
+          set | grep BASH_EXECUTION_STRING;
         "
 
     printf "\n"

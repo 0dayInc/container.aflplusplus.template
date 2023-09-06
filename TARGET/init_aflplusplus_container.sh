@@ -11,7 +11,9 @@ apt update
 apt full-upgrade -y
 apt install -y \
   apt-file \
+  autoconf \
   binutils-dev \
+  build-essential \
   clang \
   curl \
   coreutils \
@@ -66,8 +68,14 @@ cd /
 if [[ -d $aflplusplus_source_root ]]; then
   rm -rf $aflplusplus_source_root
 fi
-git clone https://github.com/AFLplusplus/AFLplusplus.git
-cd $aflplusplus_source_root && git checkout dev && make distrib && make install
+
+# Let's snag latest dev branch and build with some custom options
+git clone https://github.com/AFLplusplus/AFLplusplus.git --branch dev
+cd $aflplusplus_source_root && CODE_COVERAGE=1 \
+                               LLVM_CONFIG=llvm-config-14 \
+                               make distrib
+
+cd $aflplusplus_source_root && make install
 
 # Install Radamsa to Support -R flag in afl-fuzz
 # (i.e. Include Radamsa for test case mutation)
