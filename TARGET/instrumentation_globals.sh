@@ -94,7 +94,8 @@ export AFL_SHUFFLE_QUEUE=1
 # setstdin	Sets user defined STDIN data instead of real one, overriding read, fread, fgetc, getc and getchar calls. Read here for more info
 # startstop	Sends SIGSTOP to itself on startup, to suspend the process.
 # writeout	Some binaries write() to fd 0, expecting it to be a two-way socket. This makes that work (by redirecting to fd 1).
-export AFL_PRELOAD="${aflplusplus_source_root}/libdislocator.so:${aflplusplus_source_root}/libcompcov.so:${preeny_root}/src/dealarm.so:${preeny_root}/src/defork.so:${preeny_root}/src/deptrace.so:${preeny_root}/src/derand.so:${preeny_root}/src/desigact.so:${preeny_root}/src/desleep.so:${preeny_root}/src/desock.so:${preeny_root}/src/desrand.so"
+# export AFL_PRELOAD="${aflplusplus_source_root}/libdislocator.so:${aflplusplus_source_root}/libcompcov.so:${preeny_root}/src/dealarm.so:${preeny_root}/src/defork.so:${preeny_root}/src/deptrace.so:${preeny_root}/src/derand.so:${preeny_root}/src/desigact.so:${preeny_root}/src/desleep.so:${preeny_root}/src/desock.so:${preeny_root}/src/desrand.so"
+export AFL_PRELOAD="${aflplusplus_source_root}/libdislocator.so:${aflplusplus_source_root}/libcompcov.so:${preeny_root}/src/dealarm.so:${preeny_root}/src/defork.so:${preeny_root}/src/desleep.so"
 
 # PREENY derand.so SPECIFIC SETTINGS:
 export RAND=1337
@@ -178,8 +179,8 @@ export AFL_LLVM_LAF_ALL=1
 #export AFL_HARDEN=1
 
 # Activates the address sanitizer (memory corruption detection)
-export AFL_USE_ASAN=1
-export ASAN_OPTIONS=help=1,verbosity=3,detect_leaks=1,abort_on_error=1,symbolize=0,check_initialization_order=true,detect_stack_use_after_return=true,strict_string_checks=true,detect_invalid_pointer_pairs=2,malloc_context_size=0,allocator_may_return_null=1
+# export AFL_USE_ASAN=1
+# export ASAN_OPTIONS=help=1,verbosity=3,detect_leaks=1,abort_on_error=1,symbolize=0,check_initialization_order=true,detect_stack_use_after_return=true,strict_string_checks=true,detect_invalid_pointer_pairs=2,malloc_context_size=0,allocator_may_return_null=1
 
 # Activates the Control Flow Integrity sanitizer
 # (e.g. type confusion vulnerabilities)

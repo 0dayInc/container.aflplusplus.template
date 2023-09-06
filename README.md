@@ -3,7 +3,7 @@
 This project aims to guide security researchers along the journey of squeezing out as much capability of AFL++ as possible for any engagement where fuzzing is desired.
 
 #### **Why** ####
-To paraphrase a wise meme on the Internet...<br/>
+To paraphrase what a wise meme on the Internet once said...<br/>
 ![WiseMeme](https://raw.githubusercontent.com/0dayInc/container.aflplusplus.template/master/documentation/one_does_not_simply_install_afl%2B%2B.jpeg)
 
 #### **How** ####

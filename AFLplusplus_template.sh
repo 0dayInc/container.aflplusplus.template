@@ -242,7 +242,8 @@ case $afl_mode in
         -c "
           ${init_instrument_fuzz}
           printf 'AFL++ Container Shutting Down in 30 Seconds';
-          for i in {1..30}; do printf '.'; sleep 1; done
+          echo ${AFL_PRELOAD};
+          for i in {1..30}; do printf '.'; sleep 1; done;
         "
 
     printf "\n"
