@@ -24,7 +24,9 @@ The environment project aims to:
 #### **Installation / Usage** ####
 1. Clone the repo:
 ```
-$ git clone https://github.com/0dayInc/container.aflplusplus.template
+$ cd /opt
+$ sudo git clone https://github.com/0dayInc/container.aflplusplus.template
+$ sudo chown -R $USER:$USER container.aflplusplus.template
 ```
 
 2. Review Options:
@@ -85,9 +87,10 @@ $ git clone <TARGET_GIT_REPO>
 $ vi <TARGET_GIT_REPO>/<TARGET_SRC_FILE_TO_INSTRUMENT_W __AFL_INIT && __AFL_LOOP>
 ```
 
-5. Sanity check the instrument_target.sh script
+5. Sanity check instrumentation_globals.sh && instrument_target.sh scripts
 ```
 $ cd ..
+$ vi TARGET/instrumentation_globals.sh
 $ vi TARGET/instrument_target.sh
 ```
 
