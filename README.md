@@ -22,8 +22,13 @@ The environment project aims to:
 - Aid resercher in finding .so files loaded via dlopen (to be passed into AFL_PRELOAD)
 
 #### **Installation / Usage** ####
+1. Clone the repo:
 ```
 $ git clone https://github.com/0dayInc/container.aflplusplus.template
+```
+
+2. Review Options:
+```
 $ cd container.aflplusplus.template
 $ ./AFLplusplus_template.sh -h
 USAGE:
@@ -67,22 +72,45 @@ USAGE:
     -D                     # OPTIONAL
                            # Enable Debugging
 
+```
+
+3. Clone the Target Source Code Repo:
+```
 $ cd TARGET_SRC
 $ git clone <TARGET_GIT_REPO>
-$ vi <TARGET_GIT_REPO>/<SRC_FILE_TO_INSTRUMENT_W __AFL_INIT && __AFL_LOOP>
 ```
 
-Example Usage:
+4. Instrument your target function(s) w/ `__AFL_INIT` &&`__AFL_LOOP`:
 ```
-$ ./AFLplusplus_template.sh -r <src_folder_name> -T "target_bin --flags" -m main
-```
-
-To add another CPU core into the fuzzing mix, open a new terminal window:
-```
-$ ./AFLplusplus_template.sh -r <src_folder_name> -T "target_bin --flags" -m secondary
+$ vi <TARGET_GIT_REPO>/<TARGET_SRC_FILE_TO_INSTRUMENT_W __AFL_INIT && __AFL_LOOP>
 ```
 
-To add your own test cases, place them in ./TARGET/test_cases and they'll be copied into /fuzz_session/AFLplusplus/input.
+5. Sanity check the instrument_target.sh script
+```
+$ cd ..
+$ vi TARGET/instrument_target.sh
+```
+
+6. Add your own test cases as single files in the `./TARGET/test_cases` directory.  From there, they'll be copied into /fuzz_session/AFLplusplus/input once fuzzing begins.
+
+7. Begin Fuzzing (Example Usage):
+```
+$ tmux new -s afl_main
+$ ./AFLplusplus_template.sh \
+  -m main \
+  -r <src_folder_name> \
+  -T "target_bin --flags"
+```
+
+8. add another CPU core into the fuzzing mix:
+```
+$ tmux new -s afl_sec1
+$ ./AFLplusplus_template.sh \
+  -m secondary \
+  -r <src_folder_name> \
+  -T "target_bin --flags"
+```
+
 
 Happy Fuzzing!
 
