@@ -149,6 +149,7 @@ fuzz_session_init="
 if [[ $debug == 'true' ]]; then
   fuzz_session_init="
     ${fuzz_session_init}
+    ulimit -c unlimited && \
     export AFL_DEBUG=1 && \
     export AFL_DEBUG_CHILD=1 && \
   "
@@ -244,8 +245,6 @@ case $afl_mode in
           printf '\n';
           printf 'AFL++ Container Shutting Down in 30 Seconds';
           for i in {1..30}; do printf '.'; sleep 1; done;
-          printf '\n';
-          set | grep BASH_EXECUTION_STRING;
         "
 
     printf "\n"

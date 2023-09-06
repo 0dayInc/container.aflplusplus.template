@@ -41,6 +41,7 @@ export preferred_afl_linker='afl-ld-lto'
 export preferred_afl_ranlib='llvm-ranlib-14'
 export preferred_afl_ar='llvm-ar-14'
 export preferred_afl_nm='llvm-nm-14'
+export preferred_llvm_config='llvm-config-14'
 
 # We care about missing crashes...or do we?
 export AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=0
@@ -71,7 +72,7 @@ export AFL_SHUFFLE_QUEUE=1
 # binary without disrupting the afl-fuzz process
 # itself. This is useful, among other things, for
 # bootstrapping libdislocator.so
-# PREENY OPTIONSi FOR AFL_PRELOAD:
+# ADDITIONALLY, HERE ARE PREENY OPTIONS FOR AFL_PRELOAD:
 # crazyrealloc	ensures that whatever is being reallocated is always moved to a new location in memory, thus free()ing the old.
 # dealarm	Disables alarm()
 # defork	Disables fork()
@@ -95,7 +96,7 @@ export AFL_SHUFFLE_QUEUE=1
 # startstop	Sends SIGSTOP to itself on startup, to suspend the process.
 # writeout	Some binaries write() to fd 0, expecting it to be a two-way socket. This makes that work (by redirecting to fd 1).
 # export AFL_PRELOAD="${aflplusplus_source_root}/libdislocator.so:${aflplusplus_source_root}/libcompcov.so:${preeny_root}/src/dealarm.so:${preeny_root}/src/defork.so:${preeny_root}/src/deptrace.so:${preeny_root}/src/derand.so:${preeny_root}/src/desigact.so:${preeny_root}/src/desleep.so:${preeny_root}/src/desock.so:${preeny_root}/src/desrand.so"
-export AFL_PRELOAD="${aflplusplus_source_root}/libdislocator.so:${aflplusplus_source_root}/libcompcov.so:${preeny_root}/src/dealarm.so:${preeny_root}/src/defork.so:${preeny_root}/src/desleep.so"
+export AFL_PRELOAD="${aflplusplus_source_root}/libdislocator.so:${aflplusplus_source_root}/libcompcov.so:${preeny_root}/src/dealarm.so:${preeny_root}/src/desigact.so:${preeny_root}/src/desleep.so"
 
 # PREENY derand.so SPECIFIC SETTINGS:
 export RAND=1337
