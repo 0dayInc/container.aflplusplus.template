@@ -49,9 +49,10 @@ fi
 
 # Let's snag latest dev branch and build with some custom options
 git clone https://github.com/AFLplusplus/AFLplusplus.git --branch dev
-cd $aflplusplus_source_root && CODE_COVERAGE=1 \
-                               LLVM_CONFIG="${preferred_llvm_config}" \
-                               make distrib
+
+cd $aflplusplus_source_root && make distrib # \
+                               CODE_COVERAGE=1 \
+                               LLVM_CONFIG="${preferred_llvm_config}"
 
 cd $aflplusplus_source_root && make install
 

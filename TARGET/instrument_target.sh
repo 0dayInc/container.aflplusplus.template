@@ -31,11 +31,11 @@ else
     # Found .so files
     # Read in user's CTRL+C to quit or enter to continue
     printf '\n\n\n';
-    read -p 'Press Enter to PROCEED || any other key to EXIT...' -n 1 -r -s choice
-    case $choice in 
-      '') echo 'instrumenting.';;
-      *) echo 'goodbye.'; exit 0;;
-    esac
+    # read -p 'Press Enter to PROCEED || any other key to EXIT...' -n 1 -r -s choice
+    # case $choice in 
+    #   '') echo 'instrumenting.';;
+    #   *) echo 'goodbye.'; exit 0;;
+    # esac
   fi
 fi
 
@@ -61,18 +61,6 @@ apt install -y \
   libsqlite3-dev \
   libxml2-dev \
   re2c
-
-# Clean up any previous builds
-# if [[ -f $target_repo/Makefile ]]; then
-#   cd $target_repo && CFLAGS=$cflags \
-#                      CXXFLAGS=$cxxflags \
-#                      CC=$preferred_afl \
-#                      CXX=$preferred_aflplusplus \
-#                      RANLIB=$preferred_afl_ranlib \
-#                      AR=$preferred_afl_ar \
-#                      NM=$preferred_alf_nm \
-#                      make clean
-# fi
 
 # Build the Target's configure script
 if [[ -f $target_repo/buildconf ]]; then
@@ -107,6 +95,10 @@ if [[ -f $target_repo/Makefile ]]; then
                        RANLIB=$preferred_afl_ranlib \
                        AR=$preferred_afl_ar \
                        NM=$preferred_afl_nm \
+                       AFL_USE_ASAN=1 \
+                       AFL_USE_CIFSAN=1 \
+                       AFL_USE_LSAN=1 \
+                       AFL_USE_UBSAN=1 \
                        make clean && \
                        make && \
                        make install
