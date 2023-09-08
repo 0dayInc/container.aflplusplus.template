@@ -28,7 +28,7 @@ export LD=/usr/bin/ld
 
 # Speed up fuzzing by forcing the linker to do
 # all the work before the fork server kicks in
-export LD_BIND_NOW=1
+# export LD_BIND_NOW=1
 
 # Define CC && CXX
 # Use afl-clang-lto/afl-clang-lto++ 
@@ -96,7 +96,7 @@ export AFL_SHUFFLE_QUEUE=1
 # startstop	Sends SIGSTOP to itself on startup, to suspend the process.
 # writeout	Some binaries write() to fd 0, expecting it to be a two-way socket. This makes that work (by redirecting to fd 1).
 # export AFL_PRELOAD="${aflplusplus_source_root}/libdislocator.so:${aflplusplus_source_root}/libcompcov.so:${preeny_root}/src/dealarm.so:${preeny_root}/src/defork.so:${preeny_root}/src/deptrace.so:${preeny_root}/src/derand.so:${preeny_root}/src/desigact.so:${preeny_root}/src/desleep.so:${preeny_root}/src/desock.so:${preeny_root}/src/desrand.so"
-export AFL_PRELOAD="${aflplusplus_source_root}/libdislocator.so:${aflplusplus_source_root}/libcompcov.so:${preeny_root}/src/dealarm.so:${preeny_root}/src/desigact.so:${preeny_root}/src/desleep.so"
+export AFL_PRELOAD="${aflplusplus_source_root}/libdislocator.so:${preeny_root}/src/dealarm.so::${preeny_root}/src/desigact.so:${preeny_root}/src/desleep.so"
 
 # PREENY derand.so SPECIFIC SETTINGS:
 export RAND=1337
@@ -112,7 +112,7 @@ export SEED=1337
 # Uses native trace-pc-guard instrumentation but additionally select
 # options that are required to utilize the instrumentation for source
 # code coverage.
-export AFL_LLVM_INSTRUMENT=1
+# export AFL_LLVM_INSTRUMENT=1
 
 # Produce a CmpLog binary.  CmpLog instrumentation
 # enables logging of comparison operands in a shared
@@ -122,14 +122,14 @@ export AFL_LLVM_CMPLOG=1
 
 # Enables the CompareCoverage tracing of all cmp and
 # sub in x86 and x86_64 and memory comparison functions
-export AFL_COMPCOV_LEVEL=2
+# export AFL_COMPCOV_LEVEL=2
 
 # Causes afl-fuzz to terminate when all existing
 # paths have been fuzzed and there were no new finds
 # for a while. This would be normally indicated by
 # the cycle counter in the UI turning green. May be
 # convenient for some types of automated jobs.
-export AFL_EXIT_WHEN_DONE=0
+export AFL_EXIT_WHEN_DONE=1
 
 # Causes afl-fuzz to terminate if no new paths were
 # found within a specified period of time (in seconds).
@@ -184,37 +184,6 @@ export AFL_LLVM_LAF_SPLIT_FLOATS=1
 export AFL_LLVM_LAF_ALL=1
 #export AFL_HARDEN=1
 
-# Activates the address sanitizer (memory corruption detection)
-# export AFL_USE_ASAN=1
-# export ASAN_OPTIONS=help=1,verbosity=3,detect_leaks=1,abort_on_error=1,symbolize=0,check_initialization_order=true,detect_stack_use_after_return=true,strict_string_checks=true,detect_invalid_pointer_pairs=2,malloc_context_size=0,allocator_may_return_null=1
-
-# Activates the Control Flow Integrity sanitizer
-# (e.g. type confusion vulnerabilities)
-# export AFL_USE_CFISAN=1
-# export CFISAN_OPTIONS=help=1
-
-# Activates the leak sanitizer. To perform a leak check
-# within your program at a certain point (such as at the
-# end of an __AFL_LOOP()), you can run the macro __AFL_LEAK_CHECK();
-# which will cause an abort if any memory is leaked (you can combine
-# this with the __AFL_LSAN_OFF(); and __AFL_LSAN_ON(); macros to
-# avoid checking for memory leaks from memory allocated between these
-# two calls.
-# export AFL_USE_LSAN=1
-# export LSAN_OPTIONS=help=1,exit_deo=23,fast_unwind_on_malloc=0,symbolize=0,print_suppressions=0,detect_leaks=1,use_stacks=0,use_registers=0,use_globals=0,use_tls=0,verbosity=1
-
-# Use Memory Sanitizer
-# export AFL_USE_MSAN=1
-# export MSAN_OPTIONS=help=1,exit_code=86,abort_on_error=1,symbolize=0,msan_track_origins=0,allocator_may_return_null=1
-
-# Activates the thread sanitizer to find thread race conditions
-# export AFL_USE_TSAN=1
-# export TSAN_OPTIONS=help=1
-
-# Use Unexpected Behavior Sanitizer
-# export AFL_USE_UBSAN=1
-# export UBSAN_OPTIONS=help=1
-
 # Use Custom Mutators :)
 custom_mutators_root="${aflplusplus_source_root}/custom_mutators"
 aflpp_so="${custom_mutators_root}/aflpp/aflpp-mutator.so"
@@ -249,3 +218,36 @@ export AFL_DEBUG_CHILD=0
 # IN CASE THERE'S CTORS AND REQUIRES A HUGE COVERAGE MAP
 # export AFL_MAP_SIZE=10000000
 # --------------------------------------------------------------------------#
+
+# --------------------------------------------------------------------------#
+# USE these during make only
+# Activates the address sanitizer (memory corruption detection)
+# AFL_USE_ASAN=1
+# ASAN_OPTIONS=help=1,verbosity=3,detect_leaks=1,abort_on_error=1,symbolize=0,check_initialization_order=true,detect_stack_use_after_return=true,strict_string_checks=true,detect_invalid_pointer_pairs=2,malloc_context_size=0,allocator_may_return_null=1
+
+# Activates the Control Flow Integrity sanitizer
+# (e.g. type confusion vulnerabilities)
+# AFL_USE_CFISAN=1
+# CFISAN_OPTIONS=help=1
+
+# Activates the leak sanitizer. To perform a leak check
+# within your program at a certain point (such as at the
+# end of an __AFL_LOOP()), you can run the macro __AFL_LEAK_CHECK();
+# which will cause an abort if any memory is leaked (you can combine
+# this with the __AFL_LSAN_OFF(); and __AFL_LSAN_ON(); macros to
+# avoid checking for memory leaks from memory allocated between these
+# two calls.
+# AFL_USE_LSAN=1
+# LSAN_OPTIONS=help=1,exit_deo=23,fast_unwind_on_malloc=0,symbolize=0,print_suppressions=0,detect_leaks=1,use_stacks=0,use_registers=0,use_globals=0,use_tls=0,verbosity=1
+
+# Use Memory Sanitizer
+# AFL_USE_MSAN=1
+# MSAN_OPTIONS=help=1,exit_code=86,abort_on_error=1,symbolize=0,msan_track_origins=0,allocator_may_return_null=1
+
+# Activates the thread sanitizer to find thread race conditions
+# AFL_USE_TSAN=1
+# TSAN_OPTIONS=help=1
+
+# Use Unexpected Behavior Sanitizer
+# AFL_USE_UBSAN=1
+# UBSAN_OPTIONS=help=1
