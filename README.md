@@ -15,7 +15,7 @@ This project accomplishes this goal by:
     - [Radamsa](https://gitlab.com/akihe/radamsa)
     - [Address Sanitizer](https://github.com/google/sanitizers/wiki/AddressSanitizer)
     - And Much More...Checkout [instrumentation_globals.sh](https://github.com/0dayInc/container.aflplusplus.template/blob/master/TARGET/instrumentation_globals.sh) && [init_aflplusplus_container.sh](https://github.com/0dayInc/container.aflplusplus.template/blob/master/TARGET/init_aflplusplus_container.sh) for more details.
-- Providing guidance around instrumenting binaries with AFL++ functions such as `__AFL_INIT()` && `__AFL_LOOP()`
+- Providing guidance around instrumenting binaries with AFL++ "Persistence Mode" with functions such as `__AFL_INIT()` && `__AFL_LOOP()`
 - Supports the ability to spin up a "main" fuzzer with multiple "secondaries"
 - Enabling the Creation of test cases for a given target
 - Cranking out as many mutations / second as possible
