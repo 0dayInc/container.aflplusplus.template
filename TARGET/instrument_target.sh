@@ -58,6 +58,12 @@ fi
 # Target-Specific Dependencies to be installed via apt
 apt install -y \
   bison \
+  gawk \
+  libcjson1 \
+  libfastjson4 \
+  libjson-c5 \
+  libjson-glib-1.0-0 \
+  libjson-glib-1.0-common \
   libsqlite3-dev \
   libxml2-dev \
   re2c
@@ -97,8 +103,8 @@ if [[ -f $target_repo/Makefile ]]; then
                        NM=$preferred_afl_nm \
                        AFL_USE_ASAN=1 \
                        AFL_USE_CIFSAN=1 \
-                       AFL_USE_LSAN=1 \
                        AFL_USE_UBSAN=1 \
+                       AFL_USE_LSAN=1 \
                        make clean && \
                        make && \
                        make install
