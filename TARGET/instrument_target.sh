@@ -101,7 +101,7 @@ if [[ -f $target_repo/Makefile ]]; then
                        RANLIB=$preferred_afl_ranlib \
                        AR=$preferred_afl_ar \
                        NM=$preferred_afl_nm \
-                       AFL_USE_ASAN=1 \
+                       AFL_USE_TSAN=1 \
                        AFL_USE_CIFSAN=1 \
                        AFL_USE_UBSAN=1 \
                        AFL_USE_LSAN=1 \
