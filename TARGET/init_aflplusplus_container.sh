@@ -26,6 +26,12 @@ apt install -y \
   libssl-dev \
   libunwind-dev \
   lld \
+  lld-15 \
+  llvm-15 \
+  llvm-15-dev \
+  llvm-15-linker-tools \
+  llvm-15-runtime \
+  llvm-15-tools \
   logrotate \
   lsof \
   netstat-nat \
