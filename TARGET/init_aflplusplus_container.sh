@@ -15,21 +15,40 @@ apt install -y \
   binutils-dev \
   build-essential \
   clang \
+  cmake \
   curl \
   coreutils \
   git \
+  ipxe-qemu \
   libblocksruntime-dev \
   libini-config-dev \
   libseccomp-dev \
   libssl-dev \
   libunwind-dev \
+  lld \
   logrotate \
   lsof \
   netstat-nat \
   net-tools \
+  ninja-build \
   openssh-server \
   pkg-config \
   psmisc \
+  qemu-block-extra \
+  qemu-efi-aarch64 \
+  qemu-efi-arm \
+  qemu-system \
+  qemu-system-arm \
+  qemu-system-common \
+  qemu-system-data \
+  qemu-system-gui \
+  qemu-system-mips \
+  qemu-system-misc \
+  qemu-system-ppc \
+  qemu-system-sparc \
+  qemu-system-x86 \
+  qemu-user-static \
+  qemu-utils \
   strace \
   subversion \
   tcpdump
