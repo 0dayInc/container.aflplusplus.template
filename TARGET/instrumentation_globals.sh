@@ -38,10 +38,10 @@ export LD=/usr/bin/ld
 export preferred_afl='afl-clang-lto'
 export preferred_aflplusplus='afl-clang-lto++'
 export preferred_afl_linker='afl-ld-lto'
-export preferred_afl_ranlib='llvm-ranlib-15'
-export preferred_afl_ar='llvm-ar-15'
-export preferred_afl_nm='llvm-nm-15'
-export preferred_llvm_config='llvm-config-15'
+export preferred_afl_ranlib='llvm-ranlib-14'
+export preferred_afl_ar='llvm-ar-14'
+export preferred_afl_nm='llvm-nm-14'
+export preferred_llvm_config='llvm-config-14'
 
 # We care about missing crashes...or do we?
 export AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=0
