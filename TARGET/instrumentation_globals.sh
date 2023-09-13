@@ -96,7 +96,7 @@ export AFL_SHUFFLE_QUEUE=1
 # startstop	Sends SIGSTOP to itself on startup, to suspend the process.
 # writeout	Some binaries write() to fd 0, expecting it to be a two-way socket. This makes that work (by redirecting to fd 1).
 # export AFL_PRELOAD="${aflplusplus_source_root}/libdislocator.so:${aflplusplus_source_root}/libcompcov.so:${preeny_root}/src/dealarm.so:${preeny_root}/src/defork.so:${preeny_root}/src/deptrace.so:${preeny_root}/src/derand.so:${preeny_root}/src/desigact.so:${preeny_root}/src/desleep.so:${preeny_root}/src/desock.so:${preeny_root}/src/desrand.so"
-export AFL_PRELOAD="${aflplusplus_source_root}/libdislocator.so:${preeny_root}/src/dealarm.so:${preeny_root}/src/deptrace.so:${preeny_root}/src/desigact.so:${preeny_root}/src/desleep.so"
+export AFL_PRELOAD=":${aflplusplus_source_root}/libcompcov.so:${aflplusplus_source_root}/libdislocator.so:${preeny_root}/src/dealarm.so:${preeny_root}/src/deptrace.so:${preeny_root}/src/desigact.so:${preeny_root}/src/desleep.so"
 
 # PREENY derand.so SPECIFIC SETTINGS:
 export RAND=1337
@@ -108,11 +108,6 @@ export SEED=1337
 # export WANT=10 MOD=128
 # finally, this makes the *third* "rand() % 128" be 10
 # export SKIP=2 WANT=10 MOD=128
-
-# Uses native trace-pc-guard instrumentation but additionally select
-# options that are required to utilize the instrumentation for source
-# code coverage.
-export AFL_LLVM_INSTRUMENT=NGRAM16
 
 # Produce a CmpLog binary.  CmpLog instrumentation
 # enables logging of comparison operands in a shared
