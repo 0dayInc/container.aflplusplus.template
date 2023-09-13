@@ -28,7 +28,7 @@ export LD=/usr/bin/ld
 
 # Speed up fuzzing by forcing the linker to do
 # all the work before the fork server kicks in
-# export LD_BIND_NOW=1
+export LD_BIND_NOW=1
 
 # Define CC && CXX
 # Use afl-clang-lto/afl-clang-lto++ 
