@@ -112,7 +112,7 @@ export SEED=1337
 # Uses native trace-pc-guard instrumentation but additionally select
 # options that are required to utilize the instrumentation for source
 # code coverage.
-export AFL_LLVM_INSTRUMENT=1
+export AFL_LLVM_INSTRUMENT=CLASSIC,CTX,LTO,NATIVE,PCGUARD
 
 # Produce a CmpLog binary.  CmpLog instrumentation
 # enables logging of comparison operands in a shared
@@ -122,6 +122,7 @@ export AFL_LLVM_CMPLOG=1
 
 # Enables the CompareCoverage tracing of all cmp and
 # sub in x86 and x86_64 and memory comparison functions
+export AFL_COMPCOV_LEVEL=1
 # export AFL_COMPCOV_LEVEL=2
 
 # Causes afl-fuzz to terminate when all existing
