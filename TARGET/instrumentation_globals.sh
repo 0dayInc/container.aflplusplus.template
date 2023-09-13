@@ -98,6 +98,20 @@ export AFL_SHUFFLE_QUEUE=1
 # export AFL_PRELOAD="${aflplusplus_source_root}/libdislocator.so:${aflplusplus_source_root}/libcompcov.so:${preeny_root}/src/dealarm.so:${preeny_root}/src/defork.so:${preeny_root}/src/deptrace.so:${preeny_root}/src/derand.so:${preeny_root}/src/desigact.so:${preeny_root}/src/desleep.so:${preeny_root}/src/desock.so:${preeny_root}/src/desrand.so"
 export AFL_PRELOAD=":${aflplusplus_source_root}/libcompcov.so:${aflplusplus_source_root}/libdislocator.so:${preeny_root}/src/dealarm.so:${preeny_root}/src/deptrace.so:${preeny_root}/src/desigact.so:${preeny_root}/src/desleep.so"
 
+# Settings for libdislocator.so
+# Tells to QEMU and libcompcov how to log comaprisons. Level 1 logs just
+# comparison with immediates / read-only memory and level 2 logs all the
+# comparisons. Enables the CompareCoverage tracing of all cmp and sub in
+# x86 and x86_64 and memory comparison functions.
+export AFL_COMPCOV_LEVEL=1
+# export AFL_COMPCOV_LEVEL=2
+
+# Settings for libdislocator.so
+# Caps the size of the maximum heap usage permitted by the library, in megabytes. The default value is 1 GB. Once this is exceeded, allocations will return NULL.
+export AFL_LD_LIMIT_MB=8192
+# Causes the library to output some diagnostic messages that may be useful for pinpointing the cause of any observed issues.
+export AFL_LD_VERBOSE=1
+
 # PREENY derand.so SPECIFIC SETTINGS:
 export RAND=1337
 
@@ -114,11 +128,6 @@ export SEED=1337
 # memory. These values can be used by various mutators
 # built on top of it.
 export AFL_LLVM_CMPLOG=1
-
-# Enables the CompareCoverage tracing of all cmp and
-# sub in x86 and x86_64 and memory comparison functions
-export AFL_COMPCOV_LEVEL=1
-# export AFL_COMPCOV_LEVEL=2
 
 # Causes afl-fuzz to terminate when all existing
 # paths have been fuzzed and there were no new finds
@@ -247,3 +256,8 @@ export AFL_DEBUG_CHILD=0
 # Use Unexpected Behavior Sanitizer
 # AFL_USE_UBSAN=1
 # UBSAN_OPTIONS=help=1
+#
+# When fuzzing in QEMU mode (-Q). afl-fuzz will automatically set AFL_PRELOAD
+# to load this library and enable the QASan instrumentation in afl-qemu-trace.
+# AFL_USE_QASAN=1
+# --------------------------------------------------------------------------#
