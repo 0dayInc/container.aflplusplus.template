@@ -122,6 +122,7 @@ export AFL_LLVM_CMPLOG=1
 
 # Enables the CompareCoverage tracing of all cmp and
 # sub in x86 and x86_64 and memory comparison functions
+export AFL_COMPCOV_LEVEL=1
 # export AFL_COMPCOV_LEVEL=2
 
 # Causes afl-fuzz to terminate when all existing
