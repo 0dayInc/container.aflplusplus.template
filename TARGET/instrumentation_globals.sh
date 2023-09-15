@@ -110,7 +110,7 @@ export AFL_COMPCOV_LEVEL=1
 # Caps the size of the maximum heap usage permitted by the library, in megabytes. The default value is 1 GB. Once this is exceeded, allocations will return NULL.
 export AFL_LD_LIMIT_MB=8192
 # Causes the library to output some diagnostic messages that may be useful for pinpointing the cause of any observed issues.
-export AFL_LD_VERBOSE=1
+export AFL_LD_VERBOSE=0
 
 # PREENY derand.so SPECIFIC SETTINGS:
 export RAND=1337
