@@ -62,6 +62,7 @@ apt install -y \
   libcjson1 \
   libfastjson4 \
   libjson-c5 \
+  libjsoncpp25 \
   libjson-glib-1.0-0 \
   libjson-glib-1.0-common \
   libsqlite3-dev \
