@@ -22,6 +22,7 @@ apt install -y \
   ipxe-qemu \
   libblocksruntime-dev \
   libini-config-dev \
+  libjson1 \
   libseccomp-dev \
   libssl-dev \
   libunwind-dev \
