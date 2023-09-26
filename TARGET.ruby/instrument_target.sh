@@ -67,9 +67,7 @@ apt install -y \
 
 # Build the Target's configure script
 if [[ -f $target_repo/autogen.sh ]]; then
-  cd $target_repo && CFLAGS=$cflags \
-                     CXXFLAGS=$cxxflags \
-                     CC=$preferred_afl \
+  cd $target_repo && CC=$preferred_afl \
                      CXX=$preferred_aflplusplus \
                      RANLIB=$preferred_afl_ranlib \
                      AR=$preferred_afl_ar \
@@ -88,24 +86,20 @@ fi
 
 # Execute the Target's configure script
 if [[ -f $target_repo/configure ]]; then
-  cd ${target_repo}/build && CFLAGS=$cflags \
-                       CXXFLAGS=$cxxflags \
-                       CC=$preferred_afl \
-                       CXX=$preferred_aflplusplus \
-                       RANLIB=$preferred_afl_ranlib \
-                       AR=$preferred_afl_ar \
-                       NM=$preferred_afl_nm \
-                       ../configure \
-                         --disable-shared \
-                         --disable-install-doc \
-                         --prefix=$HOME/.rubies/ruby-master
+  cd ${target_repo}/build && CC=$preferred_afl \
+                             CXX=$preferred_aflplusplus \
+                             RANLIB=$preferred_afl_ranlib \
+                             AR=$preferred_afl_ar \
+                             NM=$preferred_afl_nm \
+                             ../configure \
+                               --disable-shared \
+                               --disable-install-doc \
+                               --prefix=$HOME/.rubies/ruby-master
 fi
 
 # Clean up Previous Build, Build Again, && Install the Target
 if [[ -f $target_repo/Makefile ]]; then
-  cd ${target_repo} && CFLAGS=$cflags \
-                       CXXFLAGS=$cxxflags \
-                       CC=$preferred_afl \
+  cd ${target_repo} && CC=$preferred_afl \
                        CXX=$preferred_aflplusplus \
                        RANLIB=$preferred_afl_ranlib \
                        AR=$preferred_afl_ar \
