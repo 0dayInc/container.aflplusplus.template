@@ -3,5 +3,6 @@
 **/screenlog.*
 .DS_Store
 TARGET/test_cases/**
+TARGET.*/test_cases/**
 TARGET_SRC/**
 !TARGET_SRC/.gitkeep
