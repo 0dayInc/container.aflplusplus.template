@@ -98,7 +98,7 @@ if [[ -f $target_repo/configure ]]; then
                        ../configure \
                          --disable-shared \
                          --disable-install-doc \
-                         --prefix=$HOME/.rubies/ruby-master \
+                         --prefix=$HOME/.rubies/ruby-master
 fi
 
 # Clean up Previous Build, Build Again, && Install the Target
