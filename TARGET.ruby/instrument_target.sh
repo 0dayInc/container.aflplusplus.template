@@ -72,7 +72,9 @@ if [[ -f $target_repo/autogen.sh ]]; then
                      RANLIB=$preferred_afl_ranlib \
                      AR=$preferred_afl_ar \
                      NM=$preferred_alf_nm \
-                     ./autogen.sh
+                     ./autogen.sh \
+                       --verbose \
+                       --force          
 fi
 
 
