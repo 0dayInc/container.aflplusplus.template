@@ -16,8 +16,8 @@ target_prefix="${fuzz_session_root}/TARGET"
 preeny_root='/opt/preeny'
 aflplusplus_source_root='/AFLplusplus'
 container_afl_template_path='/opt/container.aflplusplus.template'
-cflags='-ggdb'
-cxxflags='-ggdb'
+cflags=''
+cxxflags=''
 # --------------------------------------------------------------------------#
 
 # --------------------------------------------------------------------------#
