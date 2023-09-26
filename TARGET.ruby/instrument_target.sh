@@ -67,11 +67,13 @@ apt install -y \
 
 # Build the Target's configure script
 if [[ -f $target_repo/autogen.sh ]]; then
-  cd $target_repo && CC=$preferred_afl \
-                     CXX=$preferred_aflplusplus \
-                     RANLIB=$preferred_afl_ranlib \
-                     AR=$preferred_afl_ar \
-                     NM=$preferred_alf_nm \
+  cd $target_repo && CC=$preferred_cc \
+                     CFLAGS=$cflags \
+                     CXX=$preferred_cxx \
+                     CXXFLAGS=$cxxflags \
+                     RANLIB=$preferred_ranlib \
+                     AR=$preferred_ar \
+                     NM=$preferred_nm \
                      ./autogen.sh \
                        --verbose \
                        --force          
@@ -88,11 +90,13 @@ fi
 
 # Execute the Target's configure script
 if [[ -f $target_repo/configure ]]; then
-  cd ${target_repo}/build && CC=$preferred_afl \
-                             CXX=$preferred_aflplusplus \
-                             RANLIB=$preferred_afl_ranlib \
-                             AR=$preferred_afl_ar \
-                             NM=$preferred_afl_nm \
+  cd ${target_repo}/build && CC=$preferred_cc \
+                             CFLAGS=$cflags \
+                             CXX=$preferred_cxx \
+                             CXXFLAGS=$cxxflags \
+                             RANLIB=$preferred_ranlib \
+                             AR=$preferred_ar \
+                             NM=$preferred_nm \
                              ../configure \
                                --disable-shared \
                                --disable-install-doc \
@@ -101,11 +105,13 @@ fi
 
 # Clean up Previous Build, Build Again, && Install the Target
 if [[ -f $target_repo/Makefile ]]; then
-  cd ${target_repo} && CC=$preferred_afl \
-                       CXX=$preferred_aflplusplus \
-                       RANLIB=$preferred_afl_ranlib \
-                       AR=$preferred_afl_ar \
-                       NM=$preferred_afl_nm \
+  cd ${target_repo} && CC=$preferred_cc \
+                       CFLAGS=$cflags \
+                       CXX=$preferred_cxx \
+                       CXXFLAGS=$cxxflags \
+                       RANLIB=$preferred_ranlib \
+                       AR=$preferred_ar \
+                       NM=$preferred_nm \
                        AFL_USE_ASAN=1 \
                        AFL_USE_CIFSAN=1 \
                        AFL_USE_UBSAN=1 \

@@ -16,8 +16,8 @@ target_prefix="${fuzz_session_root}/TARGET"
 preeny_root='/opt/preeny'
 aflplusplus_source_root='/AFLplusplus'
 container_afl_template_path='/opt/container.aflplusplus.template'
-cflags=''
-cxxflags=''
+cflags='-ggdb'
+cxxflags='-ggdb'
 # --------------------------------------------------------------------------#
 
 # --------------------------------------------------------------------------#
@@ -35,13 +35,13 @@ export LD_BIND_NOW=1
 # because it is faster and gives 
 # better coverage than anything else 
 # that is out there in the AFL world
-export preferred_afl='afl-clang-lto'
-export preferred_aflplusplus='afl-clang-lto++'
-export preferred_afl_linker='afl-ld-lto'
-export preferred_afl_ranlib='llvm-ranlib-14'
-export preferred_afl_ar='llvm-ar-14'
-export preferred_afl_nm='llvm-nm-14'
-export preferred_llvm_config='llvm-config-14'
+export preferred_cc='/usr/local/bin/afl-clang-lto'
+export preferred_cxx='/usr/local/bin/afl-clang-lto++'
+export preferred_ld='/usr/local/bin/afl-ld-lto'
+export preferred_ranlib='llvm-ranlib-14'
+export preferred_ar='/usr/bin/llvm-ar-14'
+export preferred_nm='/usr/bin/llvm-nm-14'
+export preferred_llvm_config='/usr/bin/llvm-config-14'
 
 # We care about missing crashes...or do we?
 export AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=0
