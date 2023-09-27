@@ -55,6 +55,7 @@ apt install -y \
   qemu-system-x86 \
   qemu-user-static \
   qemu-utils \
+  rustc \
   strace \
   subversion \
   tcpdump
@@ -92,7 +93,7 @@ aflpp_mutator=$(dirname $aflpp_so)
 atnwalk_mutator=$(dirname $atnwalk_so)
 autotokens_mutator=$(dirname $autotokens_so)
 gramatron_mutator=$(dirname $gramatron_so)
-grammar_mutator=$(dirname $grammar_so)
+grammar_mutator=$(dirname $grammar_mutator_so)
 honggfuzz_mutator=$(dirname $honggfuzz_so)
 libafl_base_mutator=$(dirname $libafl_base_so)
 libfuzzer_mutator=$(dirname $libfuzzer_so)
