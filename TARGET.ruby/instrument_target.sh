@@ -58,11 +58,19 @@ fi
 # Target-Specific Dependencies to be installed via apt
 apt install -y \
   autoconf \
-  libgmp-dev \
+  bison \
   gperf \
+  libgmp-dev \
+  libreadline6-dev \
+  libssl-dev \
+  libyaml-dev \
+  libncurses5-dev \
+  libffi-dev \
   libffi-dev \
   libyaml-dev \
   openssl \
+  pkg-config \
+  ruby \
   zlib1g-dev
 
 # Build the Target's configure script
