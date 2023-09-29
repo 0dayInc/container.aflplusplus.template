@@ -198,11 +198,11 @@ case $afl_mode in
     # Build out init_instrument_fuzz variable
     echo 'Initializing AFL++ Container, Instrumenting TARGET, and Starting AFL++'
     afl_init_container="${container_afl_template_path}/TARGET/init_aflplusplus_container.sh"
-    afl_instrument_target="${container_afl_template_path}/TARGET/instrument_target.sh ${target_source_name} ${append_to_afl_preload}"
+    afl_build_target="${container_afl_template_path}/TARGET/build_target.sh ${target_source_name} ${append_to_afl_preload}"
     # Copy TARGET Test Cases to $afl_input Folder
     cp $target_test_cases/* $afl_input 2> /dev/null
 
-    init_instrument_fuzz="${afl_init_container} && ${afl_instrument_target} && ${fuzz_session_init}"
+    init_instrument_fuzz="${afl_init_container} && ${afl_build_target} && ${fuzz_session_init}"
 
     if [[ $debug == 'true' ]]; then
       echo 'Preparing to exec:'

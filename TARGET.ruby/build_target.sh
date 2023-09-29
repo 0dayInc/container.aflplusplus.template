@@ -39,17 +39,6 @@ else
   fi
 fi
 
-# Provide an opportunity to troubleshoot the container
-# bash --login -c "
-#   printf '\n\n\n';
-#   echo '#--------------------------------------------------------#';
-#   echo '| Welcome to the AFL++ Container...                      |';
-#   echo '| Feel Free to Browse the Filesystem, Troubleshoot, etc. |';
-#   echo '| Press CTRL+D to Begin Building the Instrumented Target |';
-#   echo '#--------------------------------------------------------#';
-#   /bin/bash --login
-# "
-
 # THIS IS AN EXAMPLE OF HOW TO BUILD A TARGET FOLLOWING INSTRUMENTATION
 # Variables not declared in this script are declared in instrumentation_globals
 # and are sourced via /etc/bash.bashrc in the Docker container.
@@ -129,9 +118,13 @@ if [[ -f $target_repo/Makefile ]]; then
                        make install
 fi
 
-printf "\nINSTRUMENTATION COMPLETE: afl-fuzz will begin in 10 seconds"
-for i in {1..10}; do
-  printf '.'
-  sleep 1
-done
-printf "\n"
+# Provide an opportunity to troubleshoot the container
+# bash --login -c "
+#   printf '\n\n\n';
+#   echo '#--------------------------------------------------------#';
+#   echo '| Welcome to the AFL++ Container...                      |';
+#   echo '| Feel Free to Browse the Filesystem, Troubleshoot, etc. |';
+#   echo '| Press CTRL+D to Begin Building the Instrumented Target |';
+#   echo '#--------------------------------------------------------#';
+#   /bin/bash --login
+# "
