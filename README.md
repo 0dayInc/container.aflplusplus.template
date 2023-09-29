@@ -87,11 +87,11 @@ $ git clone <TARGET_GIT_REPO>
 $ vi <TARGET_GIT_REPO>/<TARGET_SRC_FILE_TO_INSTRUMENT_W __AFL_INIT && __AFL_LOOP>
 ```
 
-5. Sanity check instrumentation_globals.sh && instrument_target.sh scripts
+5. Sanity check instrumentation_globals.sh && build_target.sh scripts
 ```
 $ cd ..
 $ vi TARGET/instrumentation_globals.sh
-$ vi TARGET/instrument_target.sh
+$ vi TARGET/build_target.sh
 ```
 
 6. Add your own test cases as single files in the `./TARGET/test_cases` directory.  From there, they'll be copied into /fuzz_session/AFLplusplus/input once fuzzing begins.
